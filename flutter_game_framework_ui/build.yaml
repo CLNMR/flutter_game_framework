@@ -1,0 +1,18 @@
+targets:
+    $default:
+        builders:
+            json_serializable:
+                options:
+                    any_map: true
+                    explicit_to_json: true
+            tb_core|generator:
+                enabled: true
+
+builders:
+  generator:
+    import: "package:core_src/codegen/builders/builder.dart"
+    builder_factories: ["generateService"]
+    build_extensions: { ".dart": [".get.dart"] }
+    auto_apply: root_package
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]

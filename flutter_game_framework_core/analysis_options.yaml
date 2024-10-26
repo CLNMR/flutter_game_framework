@@ -1,0 +1,130 @@
+
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude: 
+    - lib/**/*.g.dart
+
+linter:
+  rules:
+    lines_longer_than_80_chars: true
+    package_api_docs: true
+    public_member_api_docs: true
+    require_trailing_commas: true
+    always_declare_return_types: true
+    avoid_bool_literals_in_conditional_expressions: true
+    avoid_double_and_int_checks: true
+    avoid_dynamic_calls: true
+    avoid_escaping_inner_quotes: true
+    avoid_equals_and_hash_code_on_mutable_classes: true
+    avoid_final_parameters: true
+    avoid_implementing_value_types: true
+    avoid_js_rounded_ints: true
+    avoid_multiple_declarations_per_line: true
+    avoid_positional_boolean_parameters: true
+    avoid_print: true
+    avoid_private_typedef_functions: true
+    avoid_type_to_string: true
+    avoid_types_on_closure_parameters: true
+    avoid_unnecessary_containers: true
+    avoid_void_async: true
+    avoid_web_libraries_in_flutter: true
+    cancel_subscriptions: true
+    cascade_invocations: true
+    cast_nullable_to_non_nullable: true
+    close_sinks: true
+    collection_methods_unrelated_type: true
+    combinators_ordering: true
+    comment_references: true
+    conditional_uri_does_not_exist: true
+    dangling_library_doc_comments: true
+    deprecated_consistency: true
+    diagnostic_describe_all_properties: true
+    directives_ordering: true
+    discarded_futures: true
+    eol_at_end_of_file: true
+    implicit_call_tearoffs: true
+    leading_newlines_in_multiline_strings: true
+    library_annotations: true
+    literal_only_boolean_expressions: true
+    missing_whitespace_between_adjacent_strings: true
+    no_adjacent_strings_in_list: true
+    no_runtimeType_toString: true
+    noop_primitive_operations: true
+    omit_local_variable_types: true
+    only_throw_errors: true
+    parameter_assignments: true
+    prefer_asserts_in_initializer_lists: true
+    prefer_asserts_with_message: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_constructors_over_static_methods: true
+    prefer_expression_function_bodies: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    prefer_if_elements_to_conditional_expressions: true
+    prefer_int_literals: true
+    prefer_mixin: true
+    prefer_null_aware_method_calls: true
+    prefer_relative_imports: true
+    prefer_single_quotes: true
+    secure_pubspec_urls: true
+    sized_box_for_whitespace: true
+    sized_box_shrink_expand: true
+    sort_child_properties_last: true
+    sort_constructors_first: true
+    sort_pub_dependencies: true
+    sort_unnamed_constructors_first: true
+    test_types_in_equals: true
+    throw_in_finally: true
+    tighten_type_of_initializing_formals: true
+    type_annotate_public_apis: true
+    unawaited_futures: true
+    unnecessary_await_in_return: true
+    unnecessary_lambdas: true
+    unnecessary_library_directive: true
+    unnecessary_null_aware_operator_on_extension_on_nullable: true
+    unnecessary_null_checks: true
+    unnecessary_parenthesis: true
+    unnecessary_raw_strings: true
+    unnecessary_statements: true
+    unnecessary_to_list_in_spreads: true
+    unreachable_from_main: true
+    unsafe_html: true
+    use_build_context_synchronously: true
+    use_colored_box: true
+    use_decorated_box: true
+    use_enums: true
+    use_full_hex_values_for_flutter_colors: true
+    use_is_even_rather_than_modulo: true
+    use_key_in_widget_constructors: true
+    use_late_for_private_fields_and_variables: true
+    use_named_constants: true
+    use_raw_strings: true
+    use_string_buffers: true
+    use_string_in_part_of_directives: true
+    use_super_parameters: true
+    use_test_throws_matchers: true
+    use_to_and_as_if_applicable: true
+
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
+
+dart_code_metrics:
+    monorepo: true
+    extends:
+        - package:dart_code_metrics_presets/recommended.yaml
+        - package:dart_code_metrics_presets/riverpod.yaml
+        - package:dart_code_metrics_presets/provider.yaml
+        - package:dart_code_metrics_presets/intl.yaml
+        - package:dart_code_metrics_presets/pub.yaml
+        - package:dart_code_metrics_presets/metrics_recommended.yaml
+
+    rules:
+        avoid-dynamic: false
+        avoid-throw-in-catch-block: false
+    pubspec-rules:
+        prefer-caret-version-syntax: false
