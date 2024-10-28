@@ -106,7 +106,13 @@ abstract class Game extends YustDoc {
   /// Whether the user has created the game and should thus be able to start it.
   bool isUserOwner(YustUser? user) => createdBy == user?.id;
 
-  Future<void> save();
+  Future<void> save({
+    bool merge = true,
+    bool? trackModification,
+    bool skipOnSave = false,
+    bool? removeNullValues,
+    bool doNotCreate = false,
+  });
 
   /// Initializes the game with the given data.
   Game init();

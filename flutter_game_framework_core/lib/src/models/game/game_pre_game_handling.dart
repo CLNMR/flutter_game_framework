@@ -58,6 +58,9 @@ extension GamePreGameHandlingExt on Game {
       players.shuffle();
     }
     gameState = GameState.running;
-    // TODO: How to add extra starting logic?
+    await customStartLogic();
   }
+
+  /// Custom starting logic for the game.
+  Future<void> customStartLogic() async {}
 }

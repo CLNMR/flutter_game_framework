@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_game_framework/src/util/widget_ref_extension.dart';
+import 'package:flutter_game_framework_ui/src/util/widget_ref_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yust/yust.dart';
