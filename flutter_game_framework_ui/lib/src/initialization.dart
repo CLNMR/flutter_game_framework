@@ -10,6 +10,9 @@ import 'package:go_router/go_router.dart';
 import 'package:yust/yust.dart';
 import 'package:yust_ui/yust_ui.dart';
 
+// TODO: Add offline check for players - after 2 minutes, write new time,
+// after 3 minutes, display as offline
+
 GoRoute? _gameScreenRoute;
 GoRoute get gameScreenRoute {
   assert(_gameScreenRoute != null, 'GameScreenRouting not initialized!');
@@ -31,7 +34,7 @@ Game Function() get createNewGame {
 List<InlineSpan> Function(TrObject)? getSpans;
 
 Future<void> initialize({
-  required AppConfig config,
+  // required AppConfig config,
   required GoRoute gameScreenRoute,
   required YustDocSetup<Game> gameSetup,
   required Game Function() createNewGame,

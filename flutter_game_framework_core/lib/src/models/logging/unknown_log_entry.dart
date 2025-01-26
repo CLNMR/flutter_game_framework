@@ -19,7 +19,7 @@ class UnknownLogEntry extends LogEntry {
           indentLevel: indentLevel ?? 0,
         );
 
-  /// Creates a [LogEndOfGame] from a JSON.
+  /// Creates a [UnknownLogEntry] from a JSON.
   factory UnknownLogEntry.fromJson(Map<String, dynamic> json) =>
       _$UnknownLogEntryFromJson(json);
 
@@ -30,5 +30,6 @@ class UnknownLogEntry extends LogEntry {
     ]);
 
   @override
-  TrObject getDescription(Game game) => TrObject(localizedKey);
+  TrObject getDescription(Game game) =>
+      TrObject(localizedKey); // TODO: Throw exception?
 }

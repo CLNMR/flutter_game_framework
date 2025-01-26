@@ -1,3 +1,5 @@
+// TODO: Make these values configurable.
+
 /// Different environments the app can run in.
 enum OwnEnvironment {
   /// This is set while the app is running in production mode.

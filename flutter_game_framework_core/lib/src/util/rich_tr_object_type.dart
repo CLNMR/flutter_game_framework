@@ -2,6 +2,7 @@ import 'custom_types.dart';
 
 /// The special translation type for a TrObject.
 class RichTrType {
+  const RichTrType(this.name, this.valueType);
   static List<RichTrType> values = [
     none,
     player,
@@ -24,8 +25,6 @@ class RichTrType {
 
   /// The special translation type for a number with a + or - operator.
   static const numberWithOperator = RichTrType('numberWithOperator', int);
-
-  const RichTrType(this.name, this.valueType);
 
   final String name;
 
