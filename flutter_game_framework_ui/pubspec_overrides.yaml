@@ -1,4 +1,8 @@
-# melos_managed_dependency_overrides: flutter_game_framework_core
+# melos_managed_dependency_overrides: flutter_game_framework_core,yust,yust_ui
 dependency_overrides:
   flutter_game_framework_core:
     path: ../flutter_game_framework_core
+  yust:
+    path: ../../yust
+  yust_ui:
+    path: ../../yust_ui

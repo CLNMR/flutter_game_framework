@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: yust
+dependency_overrides:
+  yust:
+    path: ../../yust

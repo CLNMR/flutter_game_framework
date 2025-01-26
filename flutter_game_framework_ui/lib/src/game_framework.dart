@@ -34,7 +34,7 @@ class _GameFrameworkState extends ConsumerState<GameFramework> {
           Locale('en', 'US'),
           Locale('de', 'DE'),
         ],
-        path: 'assets/localizables',
+        path: 'assets/localizables', // TODO: Pass in to GameFramework
         fallbackLocale: const Locale('en', 'US'),
         child: ProviderScope(
           child: DecoratedBox(
