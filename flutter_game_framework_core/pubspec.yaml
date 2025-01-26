@@ -1,7 +1,6 @@
 name: flutter_game_framework_core
 description: "The core part (dart-only) of the flutter_game_framework."
 version: 0.0.1
-homepage:
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -17,6 +16,7 @@ dependencies:
   firebase_auth: ^4.15.0
   json_annotation: ^4.9.0
   meta: ^1.11.0
+  pub_semver: ^2.1.5
   riverpod: 
   riverpod_annotation: 
   shared_preferences: any

@@ -2,6 +2,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:source_gen/source_gen.dart';
 
 import '../annotations/generate_service.dart';
@@ -119,7 +120,7 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
 
     return '''
     // ignore_for_file: directives_ordering, prefer_relative_imports, empty_statements, lines_longer_than_80_chars
-    ${DartFormatter().format('${service.accept(DartEmitter(useNullSafetySyntax: true))}')}''';
+    ${DartFormatter(languageVersion: Version(3,6,1)).format('${service.accept(DartEmitter(useNullSafetySyntax: true))}')}''';
   }
 
   Method _buildMethod(Source source, Result result) {
