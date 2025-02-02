@@ -93,7 +93,7 @@ class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
     }
     try {
       final router = GoRouter.of(context);
-      await Yust.authService.signUp(_alias, '', _email, _password);
+      // await Yust.authService.signUp(_alias, '', _email, _password); // TODO: Check what happened to signUp
       router.goNamed(
         LoginScreenRouting.path,
         // TODO: Implement pathParameters properly, see login_screen.r.dart.

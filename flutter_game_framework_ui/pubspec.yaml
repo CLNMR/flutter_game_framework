@@ -1,6 +1,7 @@
 name: flutter_game_framework_ui
 description: "The UI framework for the flutter_game_framework_core."
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
@@ -73,3 +74,4 @@ flutter:
             - asset: assets/fonts/Roboto/Roboto-Regular.ttf
             - asset: assets/fonts/Roboto/Roboto-Bold.ttf
               weight: 700
+  generate: true

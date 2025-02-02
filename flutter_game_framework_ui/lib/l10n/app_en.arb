@@ -1,0 +1,337 @@
+{
+  "@@locale": "en",
+  
+  "archivedGames": "Archived Games",
+  "@archivedGames": {
+    "description": "Title for archived games section"
+  },
+
+  "changeLocale": "Auf Deutsch wechseln",
+  "@changeLocale": {
+    "description": "Button to change language"
+  },
+
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Button to create account"
+  },
+
+  "createGame": "New Game",
+  "@createGame": {
+    "description": "Button to create game"
+  },
+
+  "joinGame": "Join Game",
+  "@joinGame": {
+    "description": "Button to join game"
+  },
+
+  "lastGame": "Resume Last Game",
+  "@lastGame": {
+    "description": "Button to continue last game"
+  },
+
+  "login": "Login",
+  "@login": {
+    "description": "Button to log in"
+  },
+
+  "newGame": "New Game",
+  "@newGame": {
+    "description": "Button for new game"
+  },
+
+  "proceedRandomly": "Proceed Randomly",
+  "@proceedRandomly": {
+    "description": "Button for random action"
+  },
+
+  "resumeTestGame": "Resume Test Game",
+  "@resumeTestGame": {
+    "description": "Button to resume test game"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Button for settings"
+  },
+
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Button to sign out"
+  },
+
+  "startGame": "Start Game",
+  "@startGame": {
+    "description": "Button to start game"
+  },
+
+  "testGame": "Join Test Game",
+  "@testGame": {
+    "description": "Button to join test game"
+  },
+
+  "yourGames": "Your Games",
+  "@yourGames": {
+    "description": "Button for your games"
+  },
+
+  "currentGames": "Current Games",
+  "@currentGames": {
+    "description": "Title for current games"
+  },
+
+  "private": "Private",
+  "@private": {
+    "description": "Private mode switch"
+  },
+
+  "public": "Public",
+  "@public": {
+    "description": "Public mode switch"
+  },
+
+  "random": "Random",
+  "@random": {
+    "description": "Random mode switch"
+  },
+
+  "joinGamePassword": "Password",
+  "@joinGamePassword": {
+    "description": "Password field label for joining game"
+  },
+
+  "logInEmail": "Email",
+  "@logInEmail": {
+    "description": "Email field label for login"
+  },
+
+  "logInPassword": "Password",
+  "@logInPassword": {
+    "description": "Password field label for login"
+  },
+
+  "setGamePassword": "Password",
+  "@setGamePassword": {
+    "description": "Password field label for setting game password"
+  },
+
+  "signUpAlias": "Alias (display name in game)",
+  "@signUpAlias": {
+    "description": "Alias field label for signup"
+  },
+
+  "signUpEmail": "Email address",
+  "@signUpEmail": {
+    "description": "Email field label for signup"
+  },
+
+  "signUpPassword": "Password (minimum 6 characters)",
+  "@signUpPassword": {
+    "description": "Password field label for signup"
+  },
+
+  "connectiveOf": " of ",
+  "@connectiveOf": {
+    "description": "Connective word 'of'"
+  },
+
+  "gameInformationHeader": "Game Information",
+  "@gameInformationHeader": {
+    "description": "Game information header"
+  },
+
+  "playersHeader": "Players: ",
+  "@playersHeader": {
+    "description": "Players header"
+  },
+
+  "removePlayerTooltip": "Remove this player",
+  "@removePlayerTooltip": {
+    "description": "Tooltip for remove player button"
+  },
+
+  "removePlayerTooltipDisabled": "You cannot remove yourself",
+  "@removePlayerTooltipDisabled": {
+    "description": "Tooltip for disabled remove player button"
+  },
+
+  "shufflePlayers": "Player order will be randomized at the start of the game.",
+  "@shufflePlayers": {
+    "description": "Message about random player order"
+  },
+
+  "connectiveAnd": " and ",
+  "@connectiveAnd": {
+    "description": "Connective word 'and'"
+  },
+
+  "gameButConnectiveOf": " of ",
+  "@gameButConnectiveOf": {
+    "description": "Connective 'of' for game buttons"
+  },
+
+  "gameButPlayerNum": "Number of players",
+  "@gameButPlayerNum": {
+    "description": "Label for number of players in game"
+  },
+
+  "gameButPlayers": "Players: ",
+  "@gameButPlayers": {
+    "description": "Label for players in game"
+  },
+
+  "endTitle": "Points Overview",
+  "@endTitle": {
+    "description": "Title for end game points overview"
+  },
+
+  "accountSettings": "Account Settings",
+  "@accountSettings": {
+    "description": "Header for account settings"
+  },
+
+  "gameList": "Your Games",
+  "@gameList": {
+    "description": "Header for game list"
+  },
+
+  "joinGameHeader": "Join Game",
+  "@joinGameHeader": {
+    "description": "Header for join game screen"
+  },
+
+  "newGameHeader": "Create Game",
+  "@newGameHeader": {
+    "description": "Header for new game screen"
+  },
+
+  "noGamesFound": "No open games found. Create a new game or wait for another game to be created.",
+  "@noGamesFound": {
+    "description": "Message shown when no games are found"
+  },
+
+  "logBoxTitle": "Game History",
+  "@logBoxTitle": {
+    "description": "Title for game log box"
+  },
+
+  "logEndOfGame": "The game is over, the final order is {playerRanking}.",
+  "@logEndOfGame": {
+    "description": "End of game log message",
+    "placeholders": {
+      "playerRanking": {
+        "type": "String"
+      }
+    }
+  },
+
+  "logHeaderEndOfGame": "End of Game",
+  "@logHeaderEndOfGame": {
+    "description": "Header for end of game in log"
+  },
+
+  "logHeaderGameStart": "Start of Game",
+  "@logHeaderGameStart": {
+    "description": "Header for game start in log"
+  },
+
+  "gameIdHeader": "Game ID: ",
+  "@gameIdHeader": {
+    "description": "Header for game ID display"
+  },
+
+  "inGameOptionsHeader": "Game Options",
+  "@inGameOptionsHeader": {
+    "description": "Header for in-game options"
+  },
+
+  "playerNum": "Number of players: ",
+  "@playerNum": {
+    "description": "Label for player number selection"
+  },
+
+  "playerOrder": "Player order: ",
+  "@playerOrder": {
+    "description": "Label for player order"
+  },
+
+  "visibilityOptionsHeader": "Visibility Options",
+  "@visibilityOptionsHeader": {
+    "description": "Header for visibility options"
+  },
+
+  "roundDisplay": "Round {round}",
+  "@roundDisplay": {
+    "description": "Display for current round",
+    "placeholders": {
+      "round": {
+        "type": "String"
+      }
+    }
+  },
+
+  "promptOwnerToStart": "You are the game owner. Click 'Start Game' when all players are ready.",
+  "@promptOwnerToStart": {
+    "description": "Prompt for game owner to start game"
+  },
+
+  "promptOwnerToStartWithoutShuffle": "You are the game owner. Set the player order and click 'Start Game'.",
+  "@promptOwnerToStartWithoutShuffle": {
+    "description": "Prompt for game owner to start game without shuffling"
+  },
+
+  "waitingForPlayers": "Waiting for {number} more players to join. Just send them the ID '{gameId}'.",
+  "@waitingForPlayers": {
+    "description": "Message while waiting for players",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "gameId": {
+        "type": "String"
+      }
+    }
+  },
+
+  "waitingForPlayersPrivate": "Waiting for {number} more players to join. Just send them the ID '{gameId}' and password '{password}'.",
+  "@waitingForPlayersPrivate": {
+    "description": "Message while waiting for players in private game",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "gameId": {
+        "type": "String"
+      },
+      "password": {
+        "type": "String"
+      }
+    }
+  },
+
+  "allowSpec": "Allow Spectators",
+  "@allowSpec": {
+    "description": "Switch to allow spectators"
+  },
+
+  "disallowSpec": "Disallow Spectators",
+  "@disallowSpec": {
+    "description": "Switch to disallow spectators"
+  },
+
+  "manual": "Manual",
+  "@manual": {
+    "description": "Label for manual mode"
+  },
+
+  "offline": "Offline",
+  "@offline": {
+    "description": "Label for offline mode"
+  },
+
+  "online": "Online",
+  "@online": {
+    "description": "Label for online mode"
+  }
+} 
