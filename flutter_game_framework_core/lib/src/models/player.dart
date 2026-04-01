@@ -4,20 +4,14 @@ import 'package:yust/yust.dart';
 part 'player.g.dart';
 
 @JsonSerializable()
-
 /// A player of the game.
 class Player {
   /// Creates a [Player].
-  const Player({
-    required this.id,
-    required this.displayName,
-  });
+  const Player({required this.id, required this.displayName});
 
   /// Creates a [Player] from a [YustUser].
-  factory Player.fromUser(YustUser user) => Player(
-        id: user.id,
-        displayName: user.firstName,
-      );
+  factory Player.fromUser(YustUser user) =>
+      Player(id: user.id, displayName: user.firstName);
 
   /// Creates a [Player] from a JSON map.
   factory Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
@@ -31,11 +25,15 @@ class Player {
   /// The name of the player.
   final String displayName;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Player && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+
   static const _empty = 'EMPTY';
 
   /// An empty [Player].
-  static const empty = Player(
-    id: _empty,
-    displayName: _empty,
-  );
+  static const empty = Player(id: _empty, displayName: _empty);
 }
