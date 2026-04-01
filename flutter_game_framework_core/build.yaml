@@ -12,7 +12,7 @@ builders:
   generator:
     import: "package:flutter_game_framework_core/src/codegen/builders/builder.dart"
     builder_factories: ["generateService"]
-    build_extensions: { ".dart": [".get.dart"] }
+    build_extensions: { ".dart": [".service.dart"] }
     auto_apply: root_package
     build_to: source
     applies_builders: ["source_gen|combining_builder"]

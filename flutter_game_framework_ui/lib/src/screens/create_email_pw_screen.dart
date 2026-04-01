@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -50,72 +49,68 @@ class _CreateEmailPwScreenState extends ConsumerState<CreateEmailPwScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const OwnText(text: 'HEAD:appTitle', type: OwnTextType.title),
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                OwnTextField(
-                  controller: _aliasController,
-                  label: 'signUpAlias',
-                  onChanged: (_) => setState(() {}),
-                  autocorrect: false,
-                ),
-                const SizedBox(height: 16),
-                OwnTextField(
-                  controller: _emailController,
-                  label: 'signUpEmail',
-                  onChanged: (_) => setState(() {}),
-                  keyboardType: TextInputType.emailAddress,
-                  autocorrect: false,
-                  style: _email.isNotEmpty && !_isEmailValid
-                      ? const TextStyle(color: Colors.red)
-                      : null,
-                ),
-                const SizedBox(height: 16),
-                OwnTextField(
-                  controller: _passwordController,
-                  label: 'signUpPassword',
-                  onChanged: (_) => setState(() {}),
-                  obscureText: true,
-                  autocorrect: false,
-                  style: _password.isNotEmpty && _password.length < 6
-                      ? const TextStyle(color: Colors.red)
-                      : null,
-                ),
-                const SizedBox(height: 16),
-                OwnButton(
-                  text: 'CreateAccount',
-                  onPressed: _canSignUp ? _trySignUp : null,
-                ),
-              ],
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      title: const OwnText(text: 'HEAD:appTitle', type: OwnTextType.title),
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+    ),
+    body: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            OwnTextField(
+              controller: _aliasController,
+              label: 'signUpAlias',
+              onChanged: (_) => setState(() {}),
+              autocorrect: false,
             ),
-          ),
+            const SizedBox(height: 16),
+            OwnTextField(
+              controller: _emailController,
+              label: 'signUpEmail',
+              onChanged: (_) => setState(() {}),
+              keyboardType: TextInputType.emailAddress,
+              autocorrect: false,
+              style: _email.isNotEmpty && !_isEmailValid
+                  ? const TextStyle(color: Colors.red)
+                  : null,
+            ),
+            const SizedBox(height: 16),
+            OwnTextField(
+              controller: _passwordController,
+              label: 'signUpPassword',
+              onChanged: (_) => setState(() {}),
+              obscureText: true,
+              autocorrect: false,
+              style: _password.isNotEmpty && _password.length < 6
+                  ? const TextStyle(color: Colors.red)
+                  : null,
+            ),
+            const SizedBox(height: 16),
+            OwnButton(
+              text: 'CreateAccount',
+              onPressed: _canSignUp ? _trySignUp : null,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   Future<void> _trySignUp() async {
     if (!_canSignUp) return;
     try {
       final router = GoRouter.of(context);
-      await Yust.authService.createAccount(
-        _alias,
-        '',
-        _email,
-        _password,
-      );
+      await Yust.authService.createAccount(_alias, '', _email, _password);
       router.goNamed(LoginScreenRouting.path);
     } on Exception catch (e) {
-      if (kDebugMode) {
-        // ignore: avoid_print
-        print(e);
-      }
+      if (!mounted) return;
+      final message = e.toString().replaceFirst('Exception: ', '');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), backgroundColor: Colors.red),
+      );
     }
   }
 }

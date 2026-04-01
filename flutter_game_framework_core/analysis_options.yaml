@@ -2,7 +2,9 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  exclude: 
+  enable-experiment:
+    - dot-shorthands
+  exclude:
     - lib/**/*.g.dart
 
 linter:

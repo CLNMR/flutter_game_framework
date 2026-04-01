@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_game_framework_ui/src/initialization.dart';
 import 'package:flutter_game_framework_ui/src/util/widget_ref_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,10 +27,7 @@ class GFRouter {
   void initialize(BuildContext context, WidgetRef ref) {
     _router ??= GoRouter(
       routes: [
-        GoRoute(
-          path: '/',
-          redirect: (_, __) => '/home',
-        ),
+        GoRoute(path: '/', redirect: (_, __) => '/home'),
         ..._getRoutes(ref),
       ],
       initialLocation: LoginScreenRouting.path,
@@ -40,18 +38,18 @@ class GFRouter {
 
   /// The routes of the app.
   List<GoRoute> _getRoutes(WidgetRef ref) => [
-        AccountScreenRouting.route,
-        CreateEmailPwScreenRouting.route,
-        GameListScreenRouting.route,
-        // TODO: GameScreenRouting.route,
-        HomeScreenRouting.route,
-        SettingScreenRouting.route,
-        JoinGameScreenRouting.route,
-        LoginScreenRouting.route,
-        NewGameScreenRouting.route,
-        OnboardingScreenRouting.route,
-        PasswordResetScreenRouting.route,
-      ];
+    AccountScreenRouting.route,
+    CreateEmailPwScreenRouting.route,
+    GameListScreenRouting.route,
+    gameScreenRoute,
+    HomeScreenRouting.route,
+    SettingScreenRouting.route,
+    JoinGameScreenRouting.route,
+    LoginScreenRouting.route,
+    NewGameScreenRouting.route,
+    OnboardingScreenRouting.route,
+    PasswordResetScreenRouting.route,
+  ];
 
   String? _guard(BuildContext context, GoRouterState state, WidgetRef ref) {
     final userRequired = ![

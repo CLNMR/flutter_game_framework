@@ -12,8 +12,8 @@ class GameFramework extends ConsumerStatefulWidget {
 
   /// Creates a [GameFramework].
   const GameFramework({super.key, ThemeData? lightTheme, ThemeData? darkTheme})
-      : _lightTheme = lightTheme,
-        _darkTheme = darkTheme;
+    : _lightTheme = lightTheme,
+      _darkTheme = darkTheme;
 
   @override
   ConsumerState<GameFramework> createState() => _GameFrameworkState();
@@ -29,21 +29,18 @@ class _GameFrameworkState extends ConsumerState<GameFramework> {
   }
 
   @override
-  Widget build(BuildContext context) => ProviderScope(
-          child: DecoratedBox(
-            decoration: _getBackgroundImage(context),
-            child: MaterialApp.router(
-              theme: widget._lightTheme ?? theme_constants.lightTheme,
-              darkTheme: widget._darkTheme ?? theme_constants.darkTheme,
-              themeMode: ThemeMode.light,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              routerConfig: _router.router,
-            ),
-          ),
-
-      );
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: _getBackgroundImage(context),
+    child: MaterialApp.router(
+      theme: widget._lightTheme ?? theme_constants.lightTheme,
+      darkTheme: widget._darkTheme ?? theme_constants.darkTheme,
+      themeMode: ThemeMode.light,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      routerConfig: _router.router,
+    ),
+  );
 
   BoxDecoration _getBackgroundImage(BuildContext context) {
     const pathToBackground = 'assets/images/background.png';
