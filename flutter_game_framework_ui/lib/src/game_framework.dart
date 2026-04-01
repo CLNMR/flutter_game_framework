@@ -2,18 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'design/theme_constants.dart' as theme_constants;
 import 'screens/gf_router.dart';
 
 /// A Framework to easily create real-time multiplayer board games in Flutter.
 class GameFramework extends ConsumerStatefulWidget {
-  final ThemeData? _lightTheme;
-  final ThemeData? _darkTheme;
+  /// The light theme for the app.
+  final ThemeData lightTheme;
+
+  /// The dark theme for the app.
+  final ThemeData? darkTheme;
 
   /// Creates a [GameFramework].
-  const GameFramework({super.key, ThemeData? lightTheme, ThemeData? darkTheme})
-    : _lightTheme = lightTheme,
-      _darkTheme = darkTheme;
+  const GameFramework({super.key, required this.lightTheme, this.darkTheme});
 
   @override
   ConsumerState<GameFramework> createState() => _GameFrameworkState();
@@ -32,8 +32,8 @@ class _GameFrameworkState extends ConsumerState<GameFramework> {
   Widget build(BuildContext context) => DecoratedBox(
     decoration: _getBackgroundImage(context),
     child: MaterialApp.router(
-      theme: widget._lightTheme ?? theme_constants.lightTheme,
-      darkTheme: widget._darkTheme ?? theme_constants.darkTheme,
+      theme: widget.lightTheme,
+      darkTheme: widget.darkTheme,
       themeMode: ThemeMode.light,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
