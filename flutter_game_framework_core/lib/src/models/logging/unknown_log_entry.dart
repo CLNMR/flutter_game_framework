@@ -28,6 +28,6 @@ class UnknownLogEntry extends LogEntry {
       _$UnknownLogEntryToJson(this)..['entryType'] = entryType.name;
 
   @override
-  TrObject getDescription(Game game) =>
-      TrObject(localizedKey); // TODO: Throw exception?
+  TrObject getDescription(Game game) => TrObject(
+      localizedKey); // TODO: Use assert to check if the key exists in the localization files.
 }
