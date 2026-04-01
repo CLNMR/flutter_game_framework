@@ -5,6 +5,7 @@ class GenerateService {
     this.updateMask = false,
     this.fromYust = false,
     this.setupFromUserId = false,
+    this.skipSaveExtension = false,
   });
 
   /// Indicates whether the update mask should be used.
@@ -15,4 +16,10 @@ class GenerateService {
 
   /// Indicates whether the service should be setup for the user ID.
   final bool setupFromUserId;
+
+  /// When true, skip generating the save/update/delete extension.
+  /// Use when the annotated class already defines its own [save] method
+  /// (e.g., overriding a parent class), which would shadow the generated
+  /// extension.
+  final bool skipSaveExtension;
 }

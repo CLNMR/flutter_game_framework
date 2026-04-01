@@ -22,6 +22,7 @@ class LogEntryListDisplay extends ConsumerStatefulWidget {
     this.headerTranslationKey = 'LOG:boxTitle',
     this.buildHeaderForRound,
     this.buildExtraEntryContent,
+    this.buildEntryTextSpan,
     this.expandedRounds,
   });
 
@@ -46,6 +47,12 @@ class LogEntryListDisplay extends ConsumerStatefulWidget {
   /// Builds extra content below a log entry (e.g., fight reports).
   /// Return null for no extra content.
   final Widget? Function(LogEntry entry)? buildExtraEntryContent;
+
+  /// Builds the text span for a log entry. When provided, replaces the
+  /// default [BuildContext.trFromObjectToTextSpan] call, allowing the
+  /// caller to customize rich text rendering (e.g., adding hover callbacks).
+  final TextSpan Function(BuildContext context, LogEntry entry)?
+  buildEntryTextSpan;
 
   /// Which rounds should be expanded by default.
   /// If null, all rounds are expanded.
@@ -76,7 +83,8 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
 
   void _scrollToBottom({bool force = false}) {
     if (!_scrollController.hasClients) return;
-    final isNearBottom = _scrollController.offset >=
+    final isNearBottom =
+        _scrollController.offset >=
         _scrollController.position.maxScrollExtent - 100;
     if (!isNearBottom && !force) return;
     _scrollController.animateTo(
@@ -88,53 +96,54 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: widget.decoration ??
-            BoxDecoration(
-              color: Colors.blueGrey.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(8),
-            ),
-        child: _isMinimized ? _buildMaximizeButton() : _buildMaximizedLog(),
-      );
+    decoration:
+        widget.decoration ??
+        BoxDecoration(
+          color: Colors.blueGrey.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(8),
+        ),
+    child: _isMinimized ? _buildMaximizeButton() : _buildMaximizedLog(),
+  );
 
   Widget _buildMaximizeButton() => IconButton(
-        icon: const Icon(Icons.expand_more, color: Colors.white),
-        onPressed: () => setState(() => _isMinimized = false),
-      );
+    icon: const Icon(Icons.expand_more, color: Colors.white),
+    onPressed: () => setState(() => _isMinimized = false),
+  );
 
   Widget _buildMinimizeButton() => IconButton(
-        icon: const Icon(Icons.expand_less, color: Colors.white),
-        iconSize: 16,
-        onPressed: () => setState(() => _isMinimized = true),
-      );
+    icon: const Icon(Icons.expand_less, color: Colors.white),
+    iconSize: 16,
+    onPressed: () => setState(() => _isMinimized = true),
+  );
 
   Widget _buildMaximizedLog() => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeader(),
-          const Divider(height: 1),
-          Expanded(child: _buildEntryList()),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      _buildHeader(),
+      const Divider(height: 1),
+      Expanded(child: _buildEntryList()),
+    ],
+  );
 
   Widget _buildHeader() => Row(
-        children: [
-          _buildMinimizeButton(),
-          Expanded(
-            child: OwnText(
-              text: widget.headerTranslationKey,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+    children: [
+      _buildMinimizeButton(),
+      Expanded(
+        child: OwnText(
+          text: widget.headerTranslationKey,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-          IconButton(
-            icon: const Icon(Icons.arrow_downward, color: Colors.white),
-            iconSize: 16,
-            onPressed: () => _scrollToBottom(force: true),
-          ),
-        ],
-      );
+        ),
+      ),
+      IconButton(
+        icon: const Icon(Icons.arrow_downward, color: Colors.white),
+        iconSize: 16,
+        onPressed: () => _scrollToBottom(force: true),
+      ),
+    ],
+  );
 
   Widget _buildEntryList() {
     final roundKeys = widget.logEntries.keys.toList()..sort();
@@ -168,8 +177,9 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
       collapsed: const SizedBox.shrink(),
       expanded: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-            entries.map((entry) => _buildSingleLogEntryDisplay(entry)).toList(),
+        children: entries
+            .map((entry) => _buildSingleLogEntryDisplay(entry))
+            .toList(),
       ),
     );
   }
@@ -190,11 +200,12 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
   }
 
   Widget _buildSingleLogEntryDisplay(LogEntry entry) {
-    final description = entry.getDescription(widget.game);
-    final span = context.trFromObjectToTextSpan(
-      description,
-      widget.game.shortenedPlayerNames,
-    );
+    final span =
+        widget.buildEntryTextSpan?.call(context, entry) ??
+        context.trFromObjectToTextSpan(
+          entry.getDescription(widget.game),
+          widget.game.shortenedPlayerNames,
+        );
     return Padding(
       padding: EdgeInsets.only(
         left: 8.0 + entry.indentLevel * 12.0,
@@ -215,10 +226,7 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
               Expanded(
                 child: SelectableText.rich(
                   span,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: Colors.white),
                 ),
               ),
             ],

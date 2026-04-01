@@ -61,6 +61,9 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
   /// Indicates whether the service should be setup for the user ID.
   late bool setupFromUserId;
 
+  /// When true, skip generating the save/update/delete extension.
+  late bool skipSaveExtension;
+
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -78,6 +81,7 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
     updateMask = annotation.read('updateMask').boolValue;
     fromYust = annotation.read('fromYust').boolValue;
     setupFromUserId = annotation.read('setupFromUserId').boolValue;
+    skipSaveExtension = annotation.read('skipSaveExtension').boolValue;
 
     final service = Library(
       (b) => b
@@ -105,16 +109,17 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
               ])
               ..docs.add('/// A service to get elements of [$className].'),
           ),
-          Extension(
-            (b) => b
-              ..name = '${className}Save'
-              ..on = refer(className)
-              ..methods.addAll([_save(), _update(), _delete()])
-              ..docs.add(
-                '/// An extension to save and delete elements '
-                'of [$className].',
-              ),
-          ),
+          if (!skipSaveExtension)
+            Extension(
+              (b) => b
+                ..name = '${className}Save'
+                ..on = refer(className)
+                ..methods.addAll([_save(), _update(), _delete()])
+                ..docs.add(
+                  '/// An extension to save and delete elements '
+                  'of [$className].',
+                ),
+            ),
         ]),
     );
 
