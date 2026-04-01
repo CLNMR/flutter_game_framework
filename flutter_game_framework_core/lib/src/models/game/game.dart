@@ -9,8 +9,6 @@ import '../game_state.dart';
 import '../logging/log_entry.dart';
 import '../player.dart';
 
-part 'game_pre_game_handling.dart';
-
 /// A game of TrickingBees.
 abstract class Game extends YustDoc {
   /// Creates a [Game].
@@ -36,10 +34,10 @@ abstract class Game extends YustDoc {
     List<int>? playOrder,
     Map<String, dynamic>? flags,
     Map<RoundNumber, List<LogEntry>>? existingLogEntries,
-  })  : gameId = gameId ?? GameId.generate(),
-        players = players ?? [],
-        playOrder = playOrder ?? List.generate(playerNum, (index) => index),
-        flags = flags ?? {};
+  }) : gameId = gameId ?? GameId.generate(),
+       players = players ?? [],
+       playOrder = playOrder ?? List.generate(playerNum, (index) => index),
+       flags = flags ?? {};
 
   /// The ID of the game in the format NNN-NNN-NNN.
   final GameId gameId;
@@ -76,13 +74,9 @@ abstract class Game extends YustDoc {
 
   /// The players other than the user's player, starting at their index.
   List<Player> getOtherPlayers(YustUser? user) => List.generate(
-        players.length - 1,
-        (index) => (getPlayerIndex(getPlayer(user)) + index + 1) % playerNum,
-      )
-          .map(
-            (e) => players[e],
-          )
-          .toList();
+    players.length - 1,
+    (index) => (getPlayerIndex(getPlayer(user)) + index + 1) % playerNum,
+  ).map((e) => players[e]).toList();
 
   /// Returns the player associated with the given user.
   Player getPlayer(YustUser? user) =>
@@ -131,4 +125,64 @@ abstract class Game extends YustDoc {
 
   /// Starts the game.
   void start();
+
+  // -- Pre-game handling (player registration and game start) --
+
+  /// Adds the given user to the game, if they are not already present.
+  Future<void> tryAddUser(YustUser user, {bool shouldSave = true}) =>
+      tryAddPlayer(Player.fromUser(user), shouldSave: shouldSave);
+
+  /// Adds the given player to the game, if they are not already present.
+  Future<void> tryAddPlayer(Player player, {bool shouldSave = true}) async {
+    if (players.map((e) => e.id).contains(player.id) || arePlayersComplete) {
+      return;
+    }
+    players.add(player);
+    if (shouldSave) await save();
+  }
+
+  /// Removes the player at the given index from the game.
+  Future<void> removePlayer(int playerIndex) async {
+    if (playerIndex < 0 || playerIndex >= players.length) return;
+    if (players[playerIndex].id == createdBy) {
+      // Cannot remove the owner of the game.
+      return;
+    }
+    players.removeAt(playerIndex);
+    await save();
+  }
+
+  /// Returns true if all players have joined the game.
+  bool get arePlayersComplete => players.length == playerNum;
+
+  /// Saves the game to the database for the first time, and opens it up for
+  /// other players to join.
+  Future<void> startLobby(YustUser user) async {
+    createdBy = user.id;
+    envId = noAuth ? 'test' : 'prod';
+    await tryAddUser(user, shouldSave: false);
+    final game = init();
+    await game.save();
+    if (!online) {
+      for (var i = 1; i < playerNum; i++) {
+        // ignore: prefer-number-format
+        await game.tryAddPlayer(Player(id: 'bot$i', displayName: 'Bot $i'));
+      }
+      await game.startGame();
+    }
+  }
+
+  /// Starts the main game, if all players have joined.
+  Future<void> startGame() async {
+    if (!arePlayersComplete) return;
+    if (shufflePlayers) {
+      players.shuffle();
+    }
+    gameState = .running;
+    await customStartLogic();
+  }
+
+  /// Custom starting logic for the game. Override in subclass.
+  // ignore: no-empty-block
+  Future<void> customStartLogic() async {}
 }
