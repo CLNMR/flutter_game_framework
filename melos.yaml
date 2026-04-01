@@ -1,0 +1,43 @@
+name: flutter_game_framework
+
+packages:
+    - flutter_game_framework_core
+    - flutter_game_framework_ui
+    - flutter_game_framework_lints
+
+scripts:
+    lint:
+        name: Run Lints
+        description: 'Runs flutter analyze in all packages'
+        exec: flutter analyze --congratulate --fatal-warnings --fatal-infos
+    lint-fix:
+        name: Autofix Linter Warnings
+        description: 'Runs dart fix in all packages'
+        exec: dart fix --apply
+    test:
+        name: Run Tests
+        description: 'Runs flutter test in all packages'
+        exec: flutter test
+        concurrency: 1
+        packageFilters:
+            dirExists: 'test'
+    gen:
+        name: Generate Parts
+        description: 'Regenerates .g/.r/.service files for all packages'
+        exec: dart run build_runner build --delete-conflicting-outputs
+        concurrency: 1
+        orderDependents: true
+    check-translations:
+        name: Check Translations
+        description: 'Validates translation JSON files for completeness and consistency'
+        exec: flutter test test/translation_validation_test.dart
+        concurrency: 1
+        packageFilters:
+            fileExists: 'test/translation_validation_test.dart'
+    custom-lint:
+        name: Run Custom Lints
+        description: 'Runs custom_lint translation key checks'
+        exec: dart run custom_lint
+        concurrency: 1
+        packageFilters:
+            dependsOn: 'custom_lint'
