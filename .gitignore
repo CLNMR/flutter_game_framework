@@ -1,1 +1,6 @@
-flutter_game_framework_ui/.flutter-plugins-dependencies
+.dart_tool/
+.idea/
+*.iml
+.flutter-plugins-dependencies
+pubspec_overrides.yaml
+pubspec.lock
