@@ -1,5 +1,3 @@
-// TODO: Make these values configurable.
-
 /// Different environments the app can run in.
 // ignore: prefer-match-file-name
 enum OwnEnvironment {
@@ -109,39 +107,36 @@ class AppConfig {
   static bool isTest() => AppConfig.config.environment == .testing;
 
   /// Initializes the app configuration.
+  ///
+  /// All Firebase settings are read from [firebaseSettings]. For emulator mode,
+  /// [emulatorDomain] overrides the auth domain. Games can provide [basicUrl]
+  /// and [apiUrl] for their own API endpoints.
   static void initialize({
     required OwnEnvironment env,
     required OwnPlatform platform,
-    String? emulatorDomain,
     required Map<String, String> firebaseSettings,
+    String? emulatorDomain,
+    String? basicUrl,
+    String? apiUrl,
   }) {
-    final isProd = env == .production;
     final isEmu = env == .emulator;
     try {
       AppConfig.config = AppConfig(
         environment: env,
         platform: platform,
-        basicUrl: '...',
-        apiUrl: isEmu
-            ? 'http://${emulatorDomain ?? ''}:8080/trickingbees-dev/us-central1/api/v1/'
-            : '...',
-        apiKeyFirebase: isProd || isEmu
-            ? firebaseSettings['apiKeyFirebase']!
-            : '...',
-        appIdAndroid: isProd ? firebaseSettings['appIdAndroid']! : '...',
-        appIdIos: isProd ? firebaseSettings['appIdIos']! : '...',
-        appIdWeb: isProd ? firebaseSettings['appIdWeb']! : '...',
+        basicUrl: basicUrl ?? firebaseSettings['basicUrl'] ?? '',
+        apiUrl: apiUrl ?? firebaseSettings['apiUrl'] ?? '',
+        apiKeyFirebase: firebaseSettings['apiKeyFirebase'] ?? '',
+        appIdAndroid: firebaseSettings['appIdAndroid'] ?? '',
+        appIdIos: firebaseSettings['appIdIos'] ?? '',
+        appIdWeb: firebaseSettings['appIdWeb'] ?? '',
         authDomain: isEmu
-            ? 'localhost:9099'
-            : isProd
-            ? firebaseSettings['authDomain']!
-            : '...',
-        measurementId: isProd ? firebaseSettings['measurementId']! : '...',
-        messagingSenderId: isProd
-            ? firebaseSettings['messagingSenderId']!
-            : '...',
-        projectId: isProd ? firebaseSettings['projectId']! : '...',
-        storageBucket: isProd ? firebaseSettings['storageBucket']! : '...',
+            ? '${(emulatorDomain ?? 'localhost')}:9099'
+            : firebaseSettings['authDomain'] ?? '',
+        measurementId: firebaseSettings['measurementId'] ?? '',
+        messagingSenderId: firebaseSettings['messagingSenderId'] ?? '',
+        projectId: firebaseSettings['projectId'] ?? '',
+        storageBucket: firebaseSettings['storageBucket'] ?? '',
       );
     } catch (e, s) {
       // ignore: avoid_print
