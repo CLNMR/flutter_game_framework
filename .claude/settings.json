@@ -1,0 +1,112 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(.claude/scripts/*.sh)",
+            "Bash(bq *)",
+            "Bash(cat *)",
+            "Bash(chmod *)",
+            "Bash(cspell *)",
+            "Bash(dart *)",
+            "Bash(dcm *)",
+            "Bash(diff *)",
+            "Bash(echo *)",
+            "Bash(find *)",
+            "Bash(flutter *)",
+            "Bash(gh issue list *)",
+            "Bash(gh issue view *)",
+            "Bash(gh pr checks *)",
+            "Bash(gh pr diff *)",
+            "Bash(gh pr list *)",
+            "Bash(gh pr view *)",
+            "Bash(gh run list *)",
+            "Bash(gh run view *)",
+            "Bash(gh run watch *)",
+            "Bash(git branch *)",
+            "Bash(git config *)",
+            "Bash(git diff *)",
+            "Bash(git log *)",
+            "Bash(git ls-files *)",
+            "Bash(git remote *)",
+            "Bash(git rev-parse *)",
+            "Bash(git show *)",
+            "Bash(git stash list *)",
+            "Bash(git status *)",
+            "Bash(git tag *)",
+            "Bash(grep *)",
+            "Bash(head *)",
+            "Bash(ls *)",
+            "Bash(melos *)",
+            "Bash(mkdir *)",
+            "Bash(pwd)",
+            "Bash(sort *)",
+            "Bash(tail *)",
+            "Bash(wc *)",
+            "Bash(which *)",
+            "Edit",
+            "mcp__dart-mcp-server__*",
+            "mcp__dcm__*",
+            "mcp__marionette__*",
+            "Read",
+            "Read(~/.pub-cache/**)",
+            "WebFetch(domain:api.dart.dev)",
+            "WebFetch(domain:api.flutter.dev)",
+            "WebFetch(domain:cloud.google.com)",
+            "WebFetch(domain:dart.dev)",
+            "WebFetch(domain:dcm.dev)",
+            "WebFetch(domain:docs.github.com)",
+            "WebFetch(domain:docs.univelop.de)",
+            "WebFetch(domain:firebase.google.com)",
+            "WebFetch(domain:flutter.dev)",
+            "WebFetch(domain:go-router-docs.web.app)",
+            "WebFetch(domain:melos.invertase.dev)",
+            "WebFetch(domain:pub.dev)",
+            "WebFetch(domain:riverpod.dev)",
+            "Write"
+        ],
+        "deny": [
+            "Bash(dart pub publish *)",
+            "Bash(git push --force *)",
+            "Bash(git reset --hard *)",
+            "Bash(rm -rf *)",
+            "Read(./private_secrets/**)",
+            "Read(./secrets/**)"
+        ]
+    },
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-tool-write-edit.sh"
+                    }
+                ]
+            },
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-tool-bash.sh"
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-tool-write-edit.sh"
+                    }
+                ]
+            }
+        ]
+    },
+    "statusLine": {
+        "type": "command",
+        "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/statusline-command.sh"
+    }
+}
