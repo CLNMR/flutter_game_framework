@@ -38,30 +38,33 @@ abstract class GameScreenBaseState<G extends Game, W extends GameScreenBase<G>>
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
-          actions: noAuth ? _debugStateButtons() : null,
-        ),
-        body: YustDocBuilder<G>(
-          modelSetup: gameSetup as YustDocSetup<G>,
-          id: widget.gameId,
-          builder: (game, insights, context) {
-            if (game == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            latestGame = game;
-            return buildForState(context, game);
-          },
-        ),
-      );
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+      actions: noAuth ? buildDebugActions() : null,
+    ),
+    body: YustDocBuilder<G>(
+      modelSetup: gameSetup as YustDocSetup<G>,
+      id: widget.gameId,
+      builder: (game, insights, context) {
+        if (game == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        latestGame = game;
+        return buildForState(context, game);
+      },
+    ),
+  );
 
-  List<Widget> _debugStateButtons() => GameState.values
+  /// Builds the debug action buttons shown in the app bar when [noAuth] is
+  /// true. Override to provide game-specific debug state buttons.
+  List<Widget> buildDebugActions() => GameState.values
       .map(
         (state) => IconButton(
-          icon:
-              Icon(IconData(state.iconCodePoint, fontFamily: 'MaterialIcons')),
+          icon: Icon(
+            IconData(state.iconCodePoint, fontFamily: 'MaterialIcons'),
+          ),
           tooltip: state.name,
           onPressed: () => onDebugStateChange(latestGame, state),
         ),
