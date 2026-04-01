@@ -4,17 +4,11 @@ part of 'game.dart';
 // ignore: prefer-match-file-name
 extension GamePreGameHandlingExt on Game {
   /// Adds the given user to the game, if he is not already present.
-  Future<void> tryAddUser(
-    YustUser user, {
-    bool shouldSave = true,
-  }) =>
+  Future<void> tryAddUser(YustUser user, {bool shouldSave = true}) =>
       tryAddPlayer(Player.fromUser(user), shouldSave: shouldSave);
 
   /// Adds the given player to the game, if he is not already present.
-  Future<void> tryAddPlayer(
-    Player player, {
-    bool shouldSave = true,
-  }) async {
+  Future<void> tryAddPlayer(Player player, {bool shouldSave = true}) async {
     if (players.map((e) => e.id).contains(player.id) || arePlayersComplete) {
       return;
     }
@@ -59,7 +53,7 @@ extension GamePreGameHandlingExt on Game {
     if (shufflePlayers) {
       players.shuffle();
     }
-    gameState = GameState.running;
+    gameState = .running;
     await customStartLogic();
   }
 

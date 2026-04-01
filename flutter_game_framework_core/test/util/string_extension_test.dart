@@ -40,6 +40,7 @@ void main() {
     test('different lengths work', () {
       for (final len in [1, 3, 5, 9]) {
         final result = ''.randomNumbers(len);
+        // ignore: prefer-number-format
         expect(result.length, len, reason: 'Length $len failed');
       }
     });

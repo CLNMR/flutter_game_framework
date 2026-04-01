@@ -8,7 +8,6 @@ import 'log_entry_type.dart';
 part 'log_entry.g.dart';
 
 @JsonSerializable(explicitToJson: true, createFactory: false)
-
 /// An entry to log what has happened in the game.
 abstract class LogEntry {
   /// Creates a [LogEntry].
@@ -20,13 +19,13 @@ abstract class LogEntry {
 
   /// Creates a [LogEntry] from JSON data.
   factory LogEntry.fromJson(Map<String, dynamic> json) {
-    final entryType = LogEntryType.values
-        .firstWhereOrNull((entryType) => entryType.name == json['entryType']);
-    return (entryType ?? LogEntryType.unknown).fromJson(json);
+    final entryType = LogEntryType.values.firstWhereOrNull(
+      (entryType) => entryType.name == json['entryType'],
+    );
+    return (entryType ?? .unknown).fromJson(json);
   }
 
   @JsonKey(toJson: _logEntryTypeToJson)
-
   /// The entryType for this log entry
   final LogEntryType entryType;
 
@@ -46,10 +45,7 @@ abstract class LogEntry {
   /// Shows the event display, to be reimplemented.
   void showEventDisplay(
     Game game,
-    Function(
-      TrObject title,
-      TrObject message,
-    ) displayEvent,
+    Function(TrObject title, TrObject message) displayEvent,
     Function() incrementLogDisplayCount,
   ) {
     incrementLogDisplayCount();

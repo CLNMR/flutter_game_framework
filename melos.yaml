@@ -25,10 +25,9 @@ scripts:
     gen:
         name: Generate Parts
         description: 'Regenerates .g/.r/.service files for all packages'
-        run: dart run build_runner build --delete-conflicting-outputs
-        exec:
-            concurrency: 1
-            orderDependents: true
+        exec: dart run build_runner build --delete-conflicting-outputs
+        packageFilters:
+            dependsOn: 'build_runner'
     check-translations:
         name: Check Translations
         description: 'Validates translation JSON files for completeness and consistency'

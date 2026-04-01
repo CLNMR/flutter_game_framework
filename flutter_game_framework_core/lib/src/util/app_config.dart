@@ -97,20 +97,16 @@ class AppConfig {
   static late AppConfig config;
 
   /// Returns whether the app is running in development mode.
-  static bool isDev() =>
-      AppConfig.config.environment == OwnEnvironment.development;
+  static bool isDev() => AppConfig.config.environment == .development;
 
   /// Returns whether the app is running in emulator mode.
-  static bool isEmu() =>
-      AppConfig.config.environment == OwnEnvironment.emulator;
+  static bool isEmu() => AppConfig.config.environment == .emulator;
 
   /// Returns whether the app is running in production mode.
-  static bool isProd() =>
-      AppConfig.config.environment == OwnEnvironment.production;
+  static bool isProd() => AppConfig.config.environment == .production;
 
   /// Returns whether the app is running in testing mode.
-  static bool isTest() =>
-      AppConfig.config.environment == OwnEnvironment.testing;
+  static bool isTest() => AppConfig.config.environment == .testing;
 
   /// Initializes the app configuration.
   static void initialize({
@@ -119,8 +115,8 @@ class AppConfig {
     String? emulatorDomain,
     required Map<String, String> firebaseSettings,
   }) {
-    final isProd = env == OwnEnvironment.production;
-    final isEmu = env == OwnEnvironment.emulator;
+    final isProd = env == .production;
+    final isEmu = env == .emulator;
     try {
       AppConfig.config = AppConfig(
         environment: env,
@@ -129,19 +125,21 @@ class AppConfig {
         apiUrl: isEmu
             ? 'http://${emulatorDomain ?? ''}:8080/trickingbees-dev/us-central1/api/v1/'
             : '...',
-        apiKeyFirebase:
-            isProd || isEmu ? firebaseSettings['apiKeyFirebase']! : '...',
+        apiKeyFirebase: isProd || isEmu
+            ? firebaseSettings['apiKeyFirebase']!
+            : '...',
         appIdAndroid: isProd ? firebaseSettings['appIdAndroid']! : '...',
         appIdIos: isProd ? firebaseSettings['appIdIos']! : '...',
         appIdWeb: isProd ? firebaseSettings['appIdWeb']! : '...',
         authDomain: isEmu
             ? 'localhost:9099'
             : isProd
-                ? firebaseSettings['authDomain']!
-                : '...',
+            ? firebaseSettings['authDomain']!
+            : '...',
         measurementId: isProd ? firebaseSettings['measurementId']! : '...',
-        messagingSenderId:
-            isProd ? firebaseSettings['messagingSenderId']! : '...',
+        messagingSenderId: isProd
+            ? firebaseSettings['messagingSenderId']!
+            : '...',
         projectId: isProd ? firebaseSettings['projectId']! : '...',
         storageBucket: isProd ? firebaseSettings['storageBucket']! : '...',
       );
@@ -155,15 +153,15 @@ class AppConfig {
   Map<String, String> getFirebaseOptions() {
     final String appId;
     switch (platform) {
-      case OwnPlatform.ios:
+      case .ios:
         appId = appIdIos;
 
-      case OwnPlatform.android:
+      case .android:
         appId = appIdAndroid;
 
-      case OwnPlatform.web:
-      case OwnPlatform.googleCloud:
-      case OwnPlatform.localServer:
+      case .web:
+      case .googleCloud:
+      case .localServer:
         appId = appIdWeb;
     }
     return {

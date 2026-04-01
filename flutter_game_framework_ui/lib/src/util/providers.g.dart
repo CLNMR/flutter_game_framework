@@ -15,20 +15,21 @@ final authStateProvider = AuthStateProvider._();
 
 /// The current [AuthState].
 
-final class AuthStateProvider extends $FunctionalProvider<AsyncValue<AuthState>,
-        AuthState, Stream<AuthState>>
+final class AuthStateProvider
+    extends
+        $FunctionalProvider<AsyncValue<AuthState>, AuthState, Stream<AuthState>>
     with $FutureModifier<AuthState>, $StreamProvider<AuthState> {
   /// The current [AuthState].
   AuthStateProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'authStateProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$authStateHash();
@@ -44,7 +45,7 @@ final class AuthStateProvider extends $FunctionalProvider<AsyncValue<AuthState>,
   }
 }
 
-String _$authStateHash() => r'9cb08b3f976ae163ba39bcb7518f490363d28ebf';
+String _$authStateHash() => r'ec96e43f2c64cac8350d6fa73d86fcf3286c4982';
 
 /// The current [YustUser].
 
@@ -53,20 +54,21 @@ final userProvider = UserProvider._();
 
 /// The current [YustUser].
 
-final class UserProvider extends $FunctionalProvider<AsyncValue<YustUser?>,
-        YustUser?, Stream<YustUser?>>
+final class UserProvider
+    extends
+        $FunctionalProvider<AsyncValue<YustUser?>, YustUser?, Stream<YustUser?>>
     with $FutureModifier<YustUser?>, $StreamProvider<YustUser?> {
   /// The current [YustUser].
   UserProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'userProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$userHash();
@@ -82,4 +84,4 @@ final class UserProvider extends $FunctionalProvider<AsyncValue<YustUser?>,
   }
 }
 
-String _$userHash() => r'1b7bd4dfead74038a0a3247d42a39b7f224dfe46';
+String _$userHash() => r'ce8bffdad2b5240b5915fd4352d3f3a4f9414b65';

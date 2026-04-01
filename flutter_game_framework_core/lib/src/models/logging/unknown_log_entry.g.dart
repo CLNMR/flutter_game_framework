@@ -6,11 +6,8 @@ part of 'unknown_log_entry.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UnknownLogEntry _$UnknownLogEntryFromJson(Map json) => UnknownLogEntry(
-      indentLevel: (json['indentLevel'] as num?)?.toInt(),
-    );
+UnknownLogEntry _$UnknownLogEntryFromJson(Map json) =>
+    UnknownLogEntry(indentLevel: (json['indentLevel'] as num?)?.toInt());
 
 Map<String, dynamic> _$UnknownLogEntryToJson(UnknownLogEntry instance) =>
-    <String, dynamic>{
-      'indentLevel': instance.indentLevel,
-    };
+    <String, dynamic>{'indentLevel': instance.indentLevel};

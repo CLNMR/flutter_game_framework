@@ -131,9 +131,5 @@ dart_code_metrics:
         avoid-shadowing: false
         # Not all classes need toString for debug purposes.
         avoid-default-tostring: false
-        # Dot shorthands require Dart >=3.6, but SDK floor is 3.4.1.
-        prefer-shorthands-with-enums: false
-        prefer-shorthands-with-static-fields: false
-        prefer-returning-shorthands: false
     pubspec-rules:
         prefer-caret-version-syntax: false

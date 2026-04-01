@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-number-format
+
 import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
 import 'package:test/test.dart';
 
@@ -29,16 +31,12 @@ void main() {
       for (var i = 0; i < 3; i++) {
         await game.tryAddPlayer(Player(id: 'p$i', displayName: 'P$i'));
       }
-      await game.tryAddPlayer(
-        const Player(id: 'p4', displayName: 'Extra'),
-      );
+      await game.tryAddPlayer(const Player(id: 'p4', displayName: 'Extra'));
       expect(game.players, hasLength(3));
     });
 
     test('calls save when shouldSave is true', () async {
-      await game.tryAddPlayer(
-        const Player(id: 'p1', displayName: 'Alice'),
-      );
+      await game.tryAddPlayer(const Player(id: 'p1', displayName: 'Alice'));
       expect(game.saveCallCount, 1);
     });
 

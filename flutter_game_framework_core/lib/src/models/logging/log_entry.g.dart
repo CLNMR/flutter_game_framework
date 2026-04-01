@@ -7,7 +7,7 @@ part of 'log_entry.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$LogEntryToJson(LogEntry instance) => <String, dynamic>{
-      'entryType': LogEntry._logEntryTypeToJson(instance.entryType),
-      'indentLevel': instance.indentLevel,
-      'localizedKey': instance.localizedKey,
-    };
+  'entryType': LogEntry._logEntryTypeToJson(instance.entryType),
+  'indentLevel': instance.indentLevel,
+  'localizedKey': instance.localizedKey,
+};

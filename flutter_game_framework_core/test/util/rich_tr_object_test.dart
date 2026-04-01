@@ -4,42 +4,38 @@ import 'package:test/test.dart';
 void main() {
   group('RichTrObject', () {
     test('creates with correct type and value', () {
-      final obj = RichTrObject(RichTrType.number, value: 42);
+      final obj = RichTrObject(.number, value: 42);
       expect(obj.value, 42);
       expect(obj.trType, RichTrType.number);
     });
 
     test('key is trType name without suffix', () {
-      final obj = RichTrObject(RichTrType.player, value: 0);
+      final obj = RichTrObject(.player, value: 0);
       expect(obj.key, 'player');
     });
 
     test('key includes keySuffix', () {
-      final obj = RichTrObject(
-        RichTrType.number,
-        value: 5,
-        keySuffix: 'Tricks',
-      );
+      final obj = RichTrObject(.number, value: 5, keySuffix: 'Tricks');
       expect(obj.key, 'numberTricks');
     });
 
     test('accepts player index value', () {
-      final obj = RichTrObject(RichTrType.player, value: 2);
+      final obj = RichTrObject(.player, value: 2);
       expect(obj.value, 2);
     });
 
     test('accepts player list value', () {
-      final obj = RichTrObject(RichTrType.playerList, value: [0, 1, 2]);
+      final obj = RichTrObject(.playerList, value: [0, 1, 2]);
       expect(obj.value, [0, 1, 2]);
     });
 
     test('accepts numberWithOperator', () {
-      final obj = RichTrObject(RichTrType.numberWithOperator, value: -3);
+      final obj = RichTrObject(.numberWithOperator, value: -3);
       expect(obj.value, -3);
     });
 
     test('accepts none type with string', () {
-      final obj = RichTrObject(RichTrType.none, value: 'text');
+      final obj = RichTrObject(.none, value: 'text');
       expect(obj.value, 'text');
       expect(obj.key, 'none');
     });

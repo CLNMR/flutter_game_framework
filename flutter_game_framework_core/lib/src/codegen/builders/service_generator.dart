@@ -109,36 +109,34 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
             (b) => b
               ..name = '${className}Save'
               ..on = refer(className)
-              ..methods.addAll([
-                _save(),
-                _update(),
-                _delete(),
-              ])
-              ..docs.add('/// An extension to save and delete elements '
-                  'of [$className].'),
+              ..methods.addAll([_save(), _update(), _delete()])
+              ..docs.add(
+                '/// An extension to save and delete elements '
+                'of [$className].',
+              ),
           ),
         ]),
     );
 
     return '''
     // ignore_for_file: directives_ordering, prefer_relative_imports, empty_statements, lines_longer_than_80_chars
-    ${DartFormatter(languageVersion: Version(3,6,1)).format('${service.accept(DartEmitter(useNullSafetySyntax: true))}')}''';
+    ${DartFormatter(languageVersion: Version(3, 6, 1)).format('${service.accept(DartEmitter(useNullSafetySyntax: true))}')}''';
   }
 
   Method _buildMethod(Source source, Result result) {
     final methodName = 'get${result.name}${source.name}';
-    final stream = source == Source.stream;
-    final db = source == Source.db;
-    final cache = source == Source.cache;
-    final get = source == Source.standard;
-    final list = result == Result.list;
-    final doc = result == Result.doc;
-    final first = result == Result.first;
+    final stream = source == .stream;
+    final db = source == .db;
+    final cache = source == .cache;
+    final get = source == .standard;
+    final list = result == .list;
+    final doc = result == .doc;
+    final first = result == .first;
     return Method(
       (b) => b
         ..name = methodName
         ..static = true
-        ..modifier = stream ? null : MethodModifier.async
+        ..modifier = stream ? null : .async
         ..returns = TypeReference(
           (b) => b
             ..symbol = stream ? 'Stream' : 'Future'
@@ -154,7 +152,7 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
             ),
         )
         ..requiredParameters.addAll([
-          if (result == Result.doc)
+          if (result == .doc)
             Parameter(
               (b) => b
                 ..name = 'id'
@@ -162,7 +160,7 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
             ),
         ])
         ..optionalParameters.addAll(
-          result != Result.doc
+          result != .doc
               ? [
                   Parameter(
                     (b) => b
@@ -176,7 +174,7 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
                       ..named = true
                       ..type = refer('List<YustOrderBy>?'),
                   ),
-                  if (result == Result.list)
+                  if (result == .list)
                     Parameter(
                       (b) => b
                         ..name = 'limit'
@@ -190,24 +188,29 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
             .property('databaseService')
             .property('$methodName<$className>')
             .call(
-          [
-            callSetup(),
-            if (result == Result.doc) refer('id'),
-          ],
-          result != Result.doc
-              ? {
-                  'filters': refer('filters'),
-                  'orderBy': refer('orderBy'),
-                  if (list) 'limit': refer('limit'),
-                }
-              : {},
-        ).code
+              [callSetup(), if (result == .doc) refer('id')],
+              result != .doc
+                  ? {
+                      'filters': refer('filters'),
+                      'orderBy': refer('orderBy'),
+                      if (list) 'limit': refer('limit'),
+                    }
+                  : {},
+            )
+            .code
         ..docs.add('''
-          /// Returns${stream ? ' a stream of' : ''} ${doc ? 'a [$className]' : first ? 'the first [$className]' : '[$className]s'}${stream ? '.' : ' ${db ? 'directly ' : ''}from the ${cache ? 'cache' : 'server'}, if available, otherwise from the ${cache ? 'server' : 'cache'}.'}
+          /// Returns${stream ? ' a stream of' : ''} ${doc
+            ? 'a [$className]'
+            : first
+            ? 'the first [$className]'
+            : '[$className]s'}${stream ? '.' : ' ${db ? 'directly ' : ''}from the ${cache ? 'cache' : 'server'}, if available, otherwise from the ${cache ? 'server' : 'cache'}.'}
           /// ${get || cache ? 'The cached documents may not be up to date!' : ''}
           ///
           /// ${stream ? 'Whenever another user makes a change, a new version of the document is returned.' : 'Be careful with offline functionality.'}
-          /// ${first ? 'The result is null if no document was found.' : list ? '''
+          /// ${first
+            ? 'The result is null if no document was found.'
+            : list
+            ? '''
           
           /// [filters] each entry represents a condition that has to be met.
           /// All of those conditions must be true for each returned entry.
@@ -215,63 +218,65 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
           /// [orderBy] orders the returned records.
           /// Multiple of those entries can be repeated.
           ///
-          /// [limit] can be passed to only get at most n documents.''' : ''}'''),
+          /// [limit] can be passed to only get at most n documents.'''
+            : ''}'''),
     );
   }
 
   TypeReference _wrapListIfList(TypeReference t, bool list) => list
-      ? TypeReference(
+      ? .new(
           (b) => b
             ..symbol = 'List'
             ..types.add(t),
         )
       : t;
 
-  Method _getListChunked() => Method(
+  Method _getListChunked() => .new(
+    (b) => b
+      ..name = 'getListChunked'
+      ..static = true
+      ..returns = TypeReference(
         (b) => b
-          ..name = 'getListChunked'
-          ..static = true
-          ..returns = TypeReference(
-            (b) => b
-              ..symbol = 'Stream'
-              ..types.add(TypeReference((b) => b..symbol = className)),
-          )
-          ..requiredParameters.addAll([])
-          ..optionalParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'filters'
-                ..named = true
-                ..type = refer('List<YustFilter>?'),
-            ),
-            // ..types.add(TypeReference((b) => b..symbol = 'YustFilter'))),
-            Parameter(
-              (b) => b
-                ..name = 'orderBy'
-                ..named = true
-                ..type = refer('List<YustOrderBy>?'),
-            ),
-            // ..types.add(TypeReference((b) => b..symbol = 'YustOrderBy'))),
-            Parameter(
-              (b) => b
-                ..name = 'pageSize'
-                ..named = true
-                ..type = refer('int')
-                ..defaultTo = const Code('5000'),
-            ),
-          ])
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('getListChunked<$className>')
-              .call(
+          ..symbol = 'Stream'
+          ..types.add(TypeReference((b) => b..symbol = className)),
+      )
+      ..requiredParameters.addAll([])
+      ..optionalParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'filters'
+            ..named = true
+            ..type = refer('List<YustFilter>?'),
+        ),
+        // ..types.add(TypeReference((b) => b..symbol = 'YustFilter'))),
+        Parameter(
+          (b) => b
+            ..name = 'orderBy'
+            ..named = true
+            ..type = refer('List<YustOrderBy>?'),
+        ),
+        // ..types.add(TypeReference((b) => b..symbol = 'YustOrderBy'))),
+        Parameter(
+          (b) => b
+            ..name = 'pageSize'
+            ..named = true
+            ..type = refer('int')
+            ..defaultTo = const Code('5000'),
+        ),
+      ])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('getListChunked<$className>')
+          .call(
             [callSetup()],
             {
               'filters': refer('filters'),
               'orderBy': refer('orderBy'),
               'pageSize': refer('pageSize'),
             },
-          ).code
-          ..docs.add('''
+          )
+          .code
+      ..docs.add('''
   /// Returns [$className]s as a lazy, chunked Stream from the database.
   ///
   /// This is much more memory efficient in comparison to other methods,
@@ -292,36 +297,32 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
   /// [orderBy] orders the returned records.
   /// Multiple of those entries can be repeated.
   ///'''),
-      );
+  );
 
-  Method _count() => Method(
+  Method _count() => .new(
+    (b) => b
+      ..name = 'count'
+      ..static = true
+      ..returns = TypeReference(
         (b) => b
-          ..name = 'count'
-          ..static = true
-          ..returns = TypeReference(
-            (b) => b
-              ..symbol = 'Future'
-              ..types.add(refer('int')),
-          )
-          ..requiredParameters.addAll([])
-          ..optionalParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'filters'
-                ..named = true
-                ..type = refer('List<YustFilter>?'),
-            ),
-          ])
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('count<$className>')
-              .call(
-            [callSetup()],
-            {
-              'filters': refer('filters'),
-            },
-          ).code
-          ..docs.add('''
+          ..symbol = 'Future'
+          ..types.add(refer('int')),
+      )
+      ..requiredParameters.addAll([])
+      ..optionalParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'filters'
+            ..named = true
+            ..type = refer('List<YustFilter>?'),
+        ),
+      ])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('count<$className>')
+          .call([callSetup()], {'filters': refer('filters')})
+          .code
+      ..docs.add('''
   /// Returns the count of [$className]s in the database.
   /// 
   /// Please note, that this is still priced per item, therefore don't overuse it
@@ -331,234 +332,217 @@ class ServiceGenerator extends GeneratorForAnnotation<GenerateService> {
   /// All of those conditions must be true for each returned entry.
   ///
   ///'''),
-      );
+  );
 
-  Method _init() => Method(
-        (b) => b
-          ..name = 'init'
-          ..static = true
-          ..returns = TypeReference((b) => b..symbol = className)
-          ..requiredParameters.addAll([])
-          ..optionalParameters.add(
-            Parameter(
-              (b) => b
-                ..name = 'doc'
-                ..named = false
-                ..type = refer('$className?'),
-            ),
-          )
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('initDoc<$className>')
-              .call(
-            [
-              callSetup(),
-              refer('doc'),
-            ],
-          ).code
-          ..docs.add('''
+  Method _init() => .new(
+    (b) => b
+      ..name = 'init'
+      ..static = true
+      ..returns = TypeReference((b) => b..symbol = className)
+      ..requiredParameters.addAll([])
+      ..optionalParameters.add(
+        Parameter(
+          (b) => b
+            ..name = 'doc'
+            ..named = false
+            ..type = refer('$className?'),
+        ),
+      )
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('initDoc<$className>')
+          .call([callSetup(), refer('doc')])
+          .code
+      ..docs.add(
+        '''
           /// Initializes a [$className] with an id and the time it was created.
           ///
           /// Optionally an existing [$className] can be given, which will still be
-          /// assigned a new id becoming a new [$className] if it had an id previously.'''),
-      );
+          /// assigned a new id becoming a new [$className] if it had an id previously.''',
+      ),
+  );
 
-  Method _deleteAll() => Method(
-        (b) => b
-          ..name = 'deleteAll'
-          ..static = true
-          ..returns = TypeReference((b) => b..symbol = 'Future<void>')
-          ..requiredParameters.addAll([])
-          ..optionalParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'filters'
-                ..named = true
-                ..type = refer('List<YustFilter>?'),
-            ),
-          ])
-          ..body = refer('Yust')
+  Method _deleteAll() => .new(
+    (b) => b
+      ..name = 'deleteAll'
+      ..static = true
+      ..returns = TypeReference((b) => b..symbol = 'Future<void>')
+      ..requiredParameters.addAll([])
+      ..optionalParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'filters'
+            ..named = true
+            ..type = refer('List<YustFilter>?'),
+        ),
+      ])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('deleteDocs<$className>')
+          .call([callSetup()], {'filters': refer('filters')})
+          .code
+      ..docs.add('/// Delete all [$className]s in the filter.'),
+  );
+
+  Method _deleteById() => .new(
+    (b) => b
+      ..name = 'deleteById'
+      ..static = true
+      ..returns = TypeReference((b) => b..symbol = 'Future<void>')
+      ..requiredParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'id'
+            ..type = refer('String').type,
+        ),
+      ])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('deleteDocById<$className>')
+          .call([callSetup(), refer('id')])
+          .code
+      ..docs.add('/// Delete a [$className].'),
+  );
+
+  Method _save() => .new(
+    (b) => b
+      ..name = 'save'
+      ..modifier = .async
+      ..returns = TypeReference((b) => b..symbol = 'Future<void>')
+      ..requiredParameters.addAll([])
+      ..optionalParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'merge'
+            ..named = true
+            ..defaultTo = const Code('true')
+            ..type = refer('bool'),
+        ),
+        Parameter(
+          (b) => b
+            ..name = 'trackModification'
+            ..named = true
+            ..type = refer('bool?'),
+        ),
+        Parameter(
+          (b) => b
+            ..name = 'skipOnSave'
+            ..named = true
+            ..defaultTo = const Code('false')
+            ..type = refer('bool'),
+        ),
+        Parameter(
+          (b) => b
+            ..name = 'removeNullValues'
+            ..named = true
+            ..type = refer('bool?'),
+        ),
+        Parameter(
+          (b) => b
+            ..name = 'doNotCreate'
+            ..named = true
+            ..defaultTo = const Code('false')
+            ..type = refer('bool'),
+        ),
+        if (updateMask)
+          Parameter(
+            (b) => b
+              ..name = 'useUpdateMask'
+              ..named = true
+              ..defaultTo = const Code('true')
+              ..type = refer('bool'),
+          ),
+      ])
+      ..body = Block((b) {
+        if (updateMask) {
+          b.statements.add(const Code('if (hasChanges || !useUpdateMask) {'));
+        }
+        b.addExpression(
+          refer('Yust')
               .property('databaseService')
-              .property('deleteDocs<$className>')
+              .property('saveDoc<$className>')
               .call(
-            [callSetup()],
-            {
-              'filters': refer('filters'),
-            },
-          ).code
-          ..docs.add('/// Delete all [$className]s in the filter.'),
-      );
-
-  Method _deleteById() => Method(
-        (b) => b
-          ..name = 'deleteById'
-          ..static = true
-          ..returns = TypeReference((b) => b..symbol = 'Future<void>')
-          ..requiredParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'id'
-                ..type = refer('String').type,
-            ),
-          ])
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('deleteDocById<$className>')
-              .call(
-            [
-              callSetup(),
-              refer('id'),
-            ],
-          ).code
-          ..docs.add('/// Delete a [$className].'),
-      );
-
-  Method _save() => Method(
-        (b) => b
-          ..name = 'save'
-          ..modifier = MethodModifier.async
-          ..returns = TypeReference((b) => b..symbol = 'Future<void>')
-          ..requiredParameters.addAll([])
-          ..optionalParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'merge'
-                ..named = true
-                ..defaultTo = const Code('true')
-                ..type = refer('bool'),
-            ),
-            Parameter(
-              (b) => b
-                ..name = 'trackModification'
-                ..named = true
-                ..type = refer('bool?'),
-            ),
-            Parameter(
-              (b) => b
-                ..name = 'skipOnSave'
-                ..named = true
-                ..defaultTo = const Code('false')
-                ..type = refer('bool'),
-            ),
-            Parameter(
-              (b) => b
-                ..name = 'removeNullValues'
-                ..named = true
-                ..type = refer('bool?'),
-            ),
-            Parameter(
-              (b) => b
-                ..name = 'doNotCreate'
-                ..named = true
-                ..defaultTo = const Code('false')
-                ..type = refer('bool'),
-            ),
-            if (updateMask)
-              Parameter(
-                (b) => b
-                  ..name = 'useUpdateMask'
-                  ..named = true
-                  ..defaultTo = const Code('true')
-                  ..type = refer('bool'),
-              ),
-          ])
-          ..body = Block((b) {
-            if (updateMask) {
-              b.statements
-                  .add(const Code('if (hasChanges || !useUpdateMask) {'));
-            }
-            b.addExpression(
-              refer('Yust')
-                  .property('databaseService')
-                  .property('saveDoc<$className>')
-                  .call(
-                [
-                  callSetup(),
-                  refer('this'),
-                ],
+                [callSetup(), refer('this')],
                 {
                   if (updateMask)
-                    'updateMask':
-                        refer('useUpdateMask ? updateMask.toList() : null'),
+                    'updateMask': refer(
+                      'useUpdateMask ? updateMask.toList() : null',
+                    ),
                   'trackModification': refer('trackModification ?? false'),
                   'skipOnSave': refer('skipOnSave'),
                   'doNotCreate': refer('doNotCreate'),
                   'merge': refer('merge'),
                   'removeNullValues': refer('removeNullValues'),
                 },
-              ).awaited,
-            );
-            if (updateMask) {
-              b.statements.add(const Code('clearUpdateMask();}'));
-            }
-          })
-          ..docs.add('/// Saves the document.'),
-      );
+              )
+              .awaited,
+        );
+        if (updateMask) {
+          b.statements.add(const Code('clearUpdateMask();}'));
+        }
+      })
+      ..docs.add('/// Saves the document.'),
+  );
 
-  Method _update() => Method(
-        (b) => b
-          ..name = 'updateByTransform'
-          ..modifier = MethodModifier.async
-          ..returns = TypeReference((b) => b..symbol = 'Future<void>')
-          ..requiredParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'fieldTransforms'
-                ..type = refer('List<YustFieldTransform>').type,
-            ),
-          ])
-          ..optionalParameters.addAll([
-            Parameter(
-              (b) => b
-                ..name = 'removeNullValues'
-                ..named = true
-                ..type = refer('bool?'),
-            ),
-            Parameter(
-              (b) => b
-                ..name = 'skipOnSave'
-                ..named = true
-                ..defaultTo = const Code('false')
-                ..type = refer('bool'),
-            ),
-          ])
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('updateDocByTransform<$className>')
-              .call(
-            [
-              callSetup(),
-              refer('id'),
-              refer('fieldTransforms'),
-            ],
+  Method _update() => .new(
+    (b) => b
+      ..name = 'updateByTransform'
+      ..modifier = .async
+      ..returns = TypeReference((b) => b..symbol = 'Future<void>')
+      ..requiredParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'fieldTransforms'
+            ..type = refer('List<YustFieldTransform>').type,
+        ),
+      ])
+      ..optionalParameters.addAll([
+        Parameter(
+          (b) => b
+            ..name = 'removeNullValues'
+            ..named = true
+            ..type = refer('bool?'),
+        ),
+        Parameter(
+          (b) => b
+            ..name = 'skipOnSave'
+            ..named = true
+            ..defaultTo = const Code('false')
+            ..type = refer('bool'),
+        ),
+      ])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('updateDocByTransform<$className>')
+          .call(
+            [callSetup(), refer('id'), refer('fieldTransforms')],
             {
               'removeNullValues': refer('removeNullValues'),
               'skipOnSave': refer('skipOnSave'),
             },
-          ).code
-          ..docs.add(
-            '/// Transforms (e.g. increment, decrement) a documents fields.',
-          ),
-      );
+          )
+          .code
+      ..docs.add(
+        '/// Transforms (e.g. increment, decrement) a documents fields.',
+      ),
+  );
 
-  Method _delete() => Method(
-        (b) => b
-          ..name = 'delete'
-          ..modifier = MethodModifier.async
-          ..returns = TypeReference((b) => b..symbol = 'Future<void>')
-          ..requiredParameters.addAll([])
-          ..body = refer('Yust')
-              .property('databaseService')
-              .property('deleteDoc<$className>')
-              .call([
-            callSetup(),
-            refer('this'),
-          ]).code
-          ..docs.add('/// Deletes the document.'),
-      );
+  Method _delete() => .new(
+    (b) => b
+      ..name = 'delete'
+      ..modifier = .async
+      ..returns = TypeReference((b) => b..symbol = 'Future<void>')
+      ..requiredParameters.addAll([])
+      ..body = refer('Yust')
+          .property('databaseService')
+          .property('deleteDoc<$className>')
+          .call([callSetup(), refer('this')])
+          .code
+      ..docs.add('/// Deletes the document.'),
+  );
 
   /// Returns the call to setup the service.
   Expression callSetup() => refer(className).property('setup').call([
-        if (setupFromUserId) refer("stateSnap.userId ?? ''"),
-      ]);
+    if (setupFromUserId) refer("stateSnap.userId ?? ''"),
+  ]);
 }

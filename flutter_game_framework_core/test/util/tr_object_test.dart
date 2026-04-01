@@ -30,7 +30,7 @@ void main() {
     });
 
     test('stores richTrObjects', () {
-      final rich = RichTrObject(RichTrType.number, value: 42);
+      final rich = RichTrObject(.number, value: 42);
       final tr = TrObject('key', richTrObjects: [rich]);
       expect(tr.richTrObjects, hasLength(1));
       expect(tr.richTrObjects!.first.value, 42);
