@@ -31,6 +31,19 @@ Game Function() get createNewGame {
 
 List<InlineSpan> Function(BuildContext context, TrObject trObject)? getSpans;
 
+/// Hook for game-specific rich span rendering. When set, replaces the default
+/// [UiRichTrObject.getEnrichedSpan] in [BuildContextExtension.trFromObjectToTextSpan].
+/// This allows games to handle their own [RichTrType] values and pass through
+/// hover callbacks (onEnter/onExit) for interactive spans.
+InlineSpan Function(
+  BuildContext context,
+  RichTrObject richTrObject,
+  List<String> playerNames, {
+  void Function(Object)? onEnter,
+  void Function(Object)? onExit,
+})?
+enrichSpan;
+
 Future<void> initialize({
   // required AppConfig config,
   required GoRoute gameScreenRoute,
@@ -41,6 +54,14 @@ Future<void> initialize({
   List<RichTrType>? additionalRichTrTypes,
   List<InlineSpan> Function(BuildContext context, TrObject trObject)?
   spanBuilder,
+  InlineSpan Function(
+    BuildContext context,
+    RichTrObject richTrObject,
+    List<String> playerNames, {
+    void Function(Object)? onEnter,
+    void Function(Object)? onExit,
+  })?
+  enrichSpanBuilder,
 }) async {
   LogEntryType.values.insertAll(0, additionalLogTypes ?? []);
   RichTrType.values.addAll(additionalRichTrTypes ?? []);
@@ -48,6 +69,7 @@ Future<void> initialize({
   _gameSetup = gameSetup;
   _createNewGame = createNewGame;
   getSpans = spanBuilder;
+  enrichSpan = enrichSpanBuilder;
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfig(emulatorAddress: emulatorAddress);
 

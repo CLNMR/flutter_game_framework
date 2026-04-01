@@ -25,7 +25,15 @@ extension BuildContextExtension on BuildContext {
   }
 
   /// Translates a [TrObject] to a stylized [TextSpan].
-  TextSpan trFromObjectToTextSpan(TrObject trObject, List<String> playerNames) {
+  ///
+  /// Optional [onEnter]/[onExit] callbacks are forwarded to the [enrichSpan]
+  /// hook (if set) for interactive spans like coordinate hover highlighting.
+  TextSpan trFromObjectToTextSpan(
+    TrObject trObject,
+    List<String> playerNames, {
+    void Function(Object)? onEnter,
+    void Function(Object)? onExit,
+  }) {
     final translation = trFromObject(trObject);
     final spans = getSpans?.call(this, trObject) ?? <InlineSpan>[];
     if (trObject.richTrObjects == null || trObject.richTrObjects!.isEmpty) {
@@ -42,7 +50,17 @@ extension BuildContextExtension on BuildContext {
       onMatch: (m) {
         final key = m.group(1);
         if (key != null && richMap.containsKey(key)) {
-          spans.add(richMap[key]!.getEnrichedSpan(this, playerNames));
+          final obj = richMap[key]!;
+          spans.add(
+            enrichSpan?.call(
+                  this,
+                  obj,
+                  playerNames,
+                  onEnter: onEnter,
+                  onExit: onExit,
+                ) ??
+                obj.getEnrichedSpan(this, playerNames),
+          );
         }
         return '';
       },
