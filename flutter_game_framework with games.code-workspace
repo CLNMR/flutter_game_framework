@@ -13,9 +13,12 @@
 	"settings": {
 		"cSpell.words": [
 			"combinators",
+			"firestore",
 			"ints",
+			"PLAYERINFO",
 			"pubspec",
 			"riverpod",
+			"subgame",
 			"tearoffs",
 			"tostring",
 			"trickingbees",
