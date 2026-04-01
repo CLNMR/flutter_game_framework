@@ -52,19 +52,17 @@ class OwnTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextField(
-        decoration: InputDecoration(
-          label: Text(
-            translateLabel ? context.tr('TEXTFIELDLABEL:$label') : label,
-          ),
-        ),
-        style: style ?? const TextStyle(color: Colors.black),
-        controller: controller,
-        onChanged: onChanged,
-        obscureText: obscureText,
-        autocorrect: autocorrect,
-        keyboardType: keyboardType,
-        onEditingComplete: onEditingComplete,
-      );
+    decoration: InputDecoration(
+      label: Text(translateLabel ? context.tr('TEXTFIELDLABEL:$label') : label),
+    ),
+    style: style ?? const TextStyle(color: Colors.white),
+    controller: controller,
+    onChanged: onChanged,
+    obscureText: obscureText,
+    autocorrect: autocorrect,
+    keyboardType: keyboardType,
+    onEditingComplete: onEditingComplete,
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

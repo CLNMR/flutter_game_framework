@@ -29,46 +29,43 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildHeading(),
-                _buildNewGameButton(context),
-                _buildJoinGameButton(context),
-                _buildResumeGameButton(context),
-                _buildSettingButton(context),
-                _buildResumeLastGameButton(context),
-              ],
-            ),
-          ),
-        ),
-      );
-
-  Widget _buildHeading() => SizedBox(
-        height: 100,
-        width: 300,
-        child: Stack(
-          alignment: Alignment.center,
+    backgroundColor: Colors.transparent,
+    body: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Positioned(
-              right: 0,
-              child: _buildAvatar(),
-            ),
-            const OwnText(
-              text: 'HEAD:appTitle',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 40,
-                color: Colors.white,
-              ),
-            ),
+            _buildHeading(),
+            _buildNewGameButton(context),
+            _buildJoinGameButton(context),
+            _buildResumeGameButton(context),
+            _buildSettingButton(context),
+            _buildResumeLastGameButton(context),
           ],
         ),
-      );
+      ),
+    ),
+  );
+
+  Widget _buildHeading() => SizedBox(
+    height: 100,
+    width: 300,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(right: 0, child: _buildAvatar()),
+        const OwnText(
+          text: 'HEAD:appTitle',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 40,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  );
 
   Widget _buildAvatar() {
     final user = ref.user;
@@ -89,66 +86,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   VoidCallback _goToAccountScreen(BuildContext context) =>
       () async => context.push(AccountScreenRouting.path);
 
-  Widget _buildNewGameButton(BuildContext context) => OwnButton(
-        text: 'NewGame',
-        onPressed: _goToNewGameScreen(context),
-      );
+  Widget _buildNewGameButton(BuildContext context) =>
+      OwnButton(text: 'NewGame', onPressed: _goToNewGameScreen(context));
 
   VoidCallback _goToNewGameScreen(BuildContext context) =>
       () async => context.push(NewGameScreenRouting.path);
 
-  Widget _buildJoinGameButton(BuildContext context) => OwnButton(
-        text: 'JoinGame',
-        onPressed: _goToJoinGameScreen(context),
-      );
+  Widget _buildJoinGameButton(BuildContext context) =>
+      OwnButton(text: 'JoinGame', onPressed: _goToJoinGameScreen(context));
 
   VoidCallback _goToJoinGameScreen(BuildContext context) =>
       () async => context.push(JoinGameScreenRouting.path);
 
-  Widget _buildResumeGameButton(BuildContext context) => OwnButton(
-        text: 'YourGames',
-        onPressed: _goToGameListScreen(context),
-      );
+  Widget _buildResumeGameButton(BuildContext context) =>
+      OwnButton(text: 'YourGames', onPressed: _goToGameListScreen(context));
 
   VoidCallback _goToGameListScreen(BuildContext context) =>
       () async => context.push(GameListScreenRouting.path);
 
-  Widget _buildSettingButton(BuildContext context) => OwnButton(
-        text: 'Setting',
-        onPressed: _goToSettingScreen(context),
-      );
+  Widget _buildSettingButton(BuildContext context) =>
+      OwnButton(text: 'Setting', onPressed: _goToSettingScreen(context));
 
   Widget _buildResumeLastGameButton(BuildContext context) => OwnButton(
-        text: 'LastGame',
-        onPressed: ref.user == null
-            ? null
-            : () async {
-                final router = GoRouter.of(context);
-                final game = await Yust.databaseService.getFirstFromDB<Game>(
-                  gameSetup,
-                  orderBy: [
-                    YustOrderBy(
-                      field: 'modifiedAt',
-                      descending: true,
-                    ),
-                  ],
-                  filters: [
-                    YustFilter(
-                      field: 'playerNames',
-                      comparator: YustFilterComparator.arrayContains,
-                      value: ref.user!.id,
-                    ),
-                    YustFilter(
-                      field: 'gameState',
-                      comparator: YustFilterComparator.notEqual,
-                      value: GameState.finished.toJson(),
-                    ),
-                  ],
-                );
-                if (game == null) return;
-                await router.push('${gameScreenRoute.path}/${game.id}');
-              },
-      );
+    text: 'LastGame',
+    onPressed: ref.user == null
+        ? null
+        : () async {
+            final router = GoRouter.of(context);
+            final game = await Yust.databaseService.getFirstFromDB<Game>(
+              gameSetup,
+              orderBy: [YustOrderBy(field: 'modifiedAt', descending: true)],
+              filters: [
+                YustFilter(
+                  field: 'playerNames',
+                  comparator: YustFilterComparator.arrayContains,
+                  value: ref.user!.id,
+                ),
+                YustFilter(
+                  field: 'gameState',
+                  comparator: YustFilterComparator.notEqual,
+                  value: GameState.finished.toJson(),
+                ),
+              ],
+            );
+            if (game == null) {
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No active game found.')),
+              );
+              return;
+            }
+            await router.pushNamed(
+              gameScreenRoute.name!,
+              pathParameters: {'gameId': game.id},
+            );
+          },
+  );
 
   VoidCallback _goToSettingScreen(BuildContext context) =>
       () async => context.push(SettingScreenRouting.path);

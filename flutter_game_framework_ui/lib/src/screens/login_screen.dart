@@ -58,84 +58,85 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: SizedBox(
-            width: 600,
-            child: Column(
+    backgroundColor: Colors.transparent,
+    body: Center(
+      child: SizedBox(
+        width: 600,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildHeading(),
+            _buildLoginWithEmailPw(context),
+            _buildCreateAccountButton(context),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildHeading(),
-                _buildLoginWithEmailPw(context),
-                _buildCreateAccountButton(context),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OAuthButton(
-                      authMethod: YustAuthenticationMethod.google,
-                      redirection: widget.redirection,
-                    ),
-                    OAuthButton(
-                      authMethod: YustAuthenticationMethod.apple,
-                      redirection: widget.redirection,
-                    ),
-                  ],
+                OAuthButton(
+                  authMethod: YustAuthenticationMethod.google,
+                  redirection: widget.redirection,
+                ),
+                OAuthButton(
+                  authMethod: YustAuthenticationMethod.apple,
+                  redirection: widget.redirection,
                 ),
               ],
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _buildHeading() => const OwnText(
-        text: 'HEAD:appTitle',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 40,
-          color: Colors.white,
-        ),
-      );
+    text: 'HEAD:appTitle',
+    style: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 40,
+      color: Colors.white,
+    ),
+  );
 
   Widget _buildCreateAccountButton(BuildContext context) => OwnButton(
-        text: 'CreateAccount',
-        onPressed: _goToCreateEmailPwScreen(context),
-      );
+    text: 'CreateAccount',
+    onPressed: _goToCreateEmailPwScreen(context),
+  );
 
   VoidCallback _goToCreateEmailPwScreen(BuildContext context) =>
       () async => context.push(CreateEmailPwScreenRouting.path);
 
-  Widget _buildLoginWithEmailPw(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            OwnTextField(
-              controller: _emailController,
-              label: 'logInEmail',
-              onChanged: (text) {
-                setState(() {});
-              },
-              keyboardType: TextInputType.emailAddress,
-              autocorrect: false,
-            ),
-            const SizedBox(height: 16),
-            OwnTextField(
-              controller: _passwordController,
-              label: 'logInPassword',
-              onChanged: (text) {
-                setState(() {});
-              },
-              obscureText: true,
-              autocorrect: false,
-              onEditingComplete: _tryLogin,
-            ),
-            const SizedBox(height: 16),
-            OwnButton(
-              text: 'Login',
-              onPressed: isLoginDisabled ? null : _tryLogin,
-            ),
-          ],
+  Widget _buildLoginWithEmailPw(BuildContext context) => Container(
+    padding: const EdgeInsets.all(24),
+    decoration: BoxDecoration(
+      color: Colors.black54,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Column(
+      children: [
+        OwnTextField(
+          controller: _emailController,
+          label: 'logInEmail',
+          onChanged: (text) {
+            setState(() {});
+          },
+          keyboardType: TextInputType.emailAddress,
+          autocorrect: false,
         ),
-      );
+        const SizedBox(height: 16),
+        OwnTextField(
+          controller: _passwordController,
+          label: 'logInPassword',
+          onChanged: (text) {
+            setState(() {});
+          },
+          obscureText: true,
+          autocorrect: false,
+          onEditingComplete: _tryLogin,
+        ),
+        const SizedBox(height: 24),
+        OwnButton(text: 'Login', onPressed: isLoginDisabled ? null : _tryLogin),
+      ],
+    ),
+  );
 
   /// Whether the login button should be disabled.
   bool get isLoginDisabled =>
@@ -147,21 +148,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (isLoginDisabled) return;
     try {
       final router = GoRouter.of(context);
-      await Yust.authService
-          .signIn(_emailController.text, _passwordController.text);
+      await Yust.authService.signIn(
+        _emailController.text,
+        _passwordController.text,
+      );
       router.goNamed(HomeScreenRouting.path);
     } on Exception catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      if (!mounted) return;
+      final message = e.toString().replaceFirst('Exception: ', '');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), backgroundColor: Colors.red),
+      );
     }
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty<bool>('isLoginDisabled', isLoginDisabled));
+    properties.add(
+      DiagnosticsProperty<bool>('isLoginDisabled', isLoginDisabled),
+    );
   }
 
   // LATER: Show alias chooser mask after login, save alias as firstName

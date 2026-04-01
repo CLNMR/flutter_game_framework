@@ -74,15 +74,13 @@ class OwnText extends StatelessWidget {
     return Text(
       translate
           ? listOfTrObjects.isEmpty
-              ? context.tr(text ?? '')
-              : listOfTrObjects.map(context.trFromObject).join('\n')
+                ? context.tr(text ?? '')
+                : listOfTrObjects.map(context.trFromObject).join('\n')
           : text ?? '',
       textAlign: align,
-      style: style ??
-          TextStyle(
-            color: Colors.black,
-            fontSize: type.fontsize.toDouble(),
-          ),
+      style:
+          style ??
+          TextStyle(color: Colors.white, fontSize: type.fontsize.toDouble()),
       overflow: TextOverflow.fade,
       maxLines: ellipsis ? 1 : null,
       softWrap: true,

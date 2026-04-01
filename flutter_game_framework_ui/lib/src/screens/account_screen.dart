@@ -21,28 +21,36 @@ class AccountScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<AccountScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const OwnText(text: 'HEAD:account', type: OwnTextType.title),
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                const Text(
-                  // ignore: lines_longer_than_80_chars
-                  'Set account stuff. Name change, pw change, email verification status etc. not implemented yet.',
-                ),
-                const Spacer(),
-                OwnButton(text: 'SignOut', onPressed: _logout),
-              ],
-            ),
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      title: const OwnText(text: 'HEAD:account', type: OwnTextType.title),
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+    ),
+    body: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const OwnText(
+                text: 'Account settings not implemented yet.',
+                translate: false,
+              ),
+              const SizedBox(height: 24),
+              OwnButton(text: 'SignOut', onPressed: _logout),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   Future<void> _logout() async {
     final router = GoRouter.of(context);

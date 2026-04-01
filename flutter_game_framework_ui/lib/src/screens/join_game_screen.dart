@@ -30,50 +30,58 @@ class _HomeScreenState extends ConsumerState<JoinGameScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const OwnText(text: 'HEAD:joinGame', type: OwnTextType.title),
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      title: const OwnText(text: 'HEAD:joinGame', type: OwnTextType.title),
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.black54,
+          borderRadius: BorderRadius.circular(12),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Expanded(child: _buildGameList(context)),
-              const SizedBox(height: 20),
-              _buildJoinPrivateGameButton(context),
-            ],
-          ),
-        ),
-      );
-
-  Widget _buildJoinPrivateGameButton(BuildContext context) => SizedBox(
-        width: 600,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'GameID',
-                hintText: 'XXX-XXX-XXX',
-                hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-              keyboardType: TextInputType.number,
-              controller: _gameIdController,
-              inputFormatters: [GameIdInputFormatter()],
-            ),
-            const SizedBox(height: 8),
-            OwnTextField(
-              label: 'joinGamePassword',
-              controller: _passwordController,
-            ),
-            const SizedBox(height: 8),
-            OwnButton(text: 'JoinGame', onPressed: _joinPrivateGame),
+            Expanded(child: _buildGameList(context)),
+            const SizedBox(height: 20),
+            _buildJoinPrivateGameButton(context),
           ],
         ),
-      );
+      ),
+    ),
+  );
+
+  Widget _buildJoinPrivateGameButton(BuildContext context) => SizedBox(
+    width: 600,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            labelText: 'GameID',
+            hintText: 'XXX-XXX-XXX',
+            hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
+          keyboardType: TextInputType.number,
+          controller: _gameIdController,
+          inputFormatters: [GameIdInputFormatter()],
+        ),
+        const SizedBox(height: 8),
+        OwnTextField(
+          label: 'joinGamePassword',
+          controller: _passwordController,
+        ),
+        const SizedBox(height: 8),
+        OwnButton(text: 'JoinGame', onPressed: _joinPrivateGame),
+      ],
+    ),
+  );
   Future<void> _joinPrivateGame() async {
     final gameId = _gameIdController.text;
     final password = _passwordController.text;
@@ -115,45 +123,43 @@ class _HomeScreenState extends ConsumerState<JoinGameScreen> {
   }
 
   Widget _buildGameList(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(3),
+    decoration: BoxDecoration(
+      border: Border.all(),
+      borderRadius: BorderRadius.circular(3),
+    ),
+    child: YustDocsBuilder<Game>(
+      // LATER: Replace with paginated/infinite scroll list
+      modelSetup: gameSetup,
+      builder: (g, _, __) {
+        final games = g
+            .where(
+              (doc) =>
+                  !doc.players.any((player) => player.id == ref.user!.id) &&
+                  doc.playerNum != doc.players.length,
+            )
+            .toList();
+        if (games.isEmpty) {
+          return const Center(child: OwnText(text: 'JOINGAME:noGamesFound'));
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) => GameButton(game: games[index]),
+          itemCount: games.length,
+        );
+      },
+      orderBy: [YustOrderBy(field: 'modifiedAt', descending: true)],
+      filters: [
+        YustFilter(
+          field: 'gameState',
+          comparator: YustFilterComparator.equal,
+          value: GameState.waitingForPlayers.toJson(),
         ),
-        child: YustDocsBuilder<Game>(
-          // LATER: Replace with paginated/infinite scroll list
-          modelSetup: gameSetup,
-          builder: (g, _, __) {
-            final games = g
-                .where(
-                  (doc) =>
-                      !doc.players.any((player) => player.id == ref.user!.id) &&
-                      doc.playerNum != doc.players.length,
-                )
-                .toList();
-            if (games.isEmpty) {
-              return const Center(
-                child: OwnText(text: 'JOINGAME:noGamesFound'),
-              );
-            }
-            return ListView.builder(
-              itemBuilder: (context, index) => GameButton(game: games[index]),
-              itemCount: games.length,
-            );
-          },
-          orderBy: [YustOrderBy(field: 'modifiedAt', descending: true)],
-          filters: [
-            YustFilter(
-              field: 'gameState',
-              comparator: YustFilterComparator.equal,
-              value: GameState.waitingForPlayers.toJson(),
-            ),
-            YustFilter(
-              field: 'public',
-              comparator: YustFilterComparator.equal,
-              value: true,
-            ),
-          ],
-          showLoadingSpinner: true,
+        YustFilter(
+          field: 'public',
+          comparator: YustFilterComparator.equal,
+          value: true,
         ),
-      );
+      ],
+      showLoadingSpinner: true,
+    ),
+  );
 }

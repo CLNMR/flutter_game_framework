@@ -56,9 +56,16 @@ class _CreateEmailPwScreenState extends ConsumerState<CreateEmailPwScreen> {
       foregroundColor: Colors.white,
     ),
     body: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
+        constraints: const BoxConstraints(maxWidth: 400),
+        decoration: BoxDecoration(
+          color: Colors.black54,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             OwnTextField(
               controller: _aliasController,
@@ -88,7 +95,7 @@ class _CreateEmailPwScreenState extends ConsumerState<CreateEmailPwScreen> {
                   ? const TextStyle(color: Colors.red)
                   : null,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             OwnButton(
               text: 'CreateAccount',
               onPressed: _canSignUp ? _trySignUp : null,

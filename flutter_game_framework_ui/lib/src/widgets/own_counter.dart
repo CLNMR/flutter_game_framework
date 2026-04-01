@@ -34,7 +34,9 @@ class OwnCounter extends StatefulWidget {
   final bool isEditable;
 
   /// The regexp filter pattern to filter the input of the counter.
-  String get filterPattern => '^($minVal|$maxVal' r'|[1-9][0-9]?)$';
+  String get filterPattern =>
+      '^($minVal|$maxVal'
+      r'|[1-9][0-9]?)$';
 
   @override
   OwnCounterState createState() => OwnCounterState();
@@ -129,8 +131,9 @@ class OwnCounterState extends State<OwnCounter> {
         _counterVal = newVal;
         _controller
           ..text = value
-          ..selection =
-              TextSelection.collapsed(offset: _controller.text.length);
+          ..selection = TextSelection.collapsed(
+            offset: _controller.text.length,
+          );
       } else {
         _setControllerValue();
       }
@@ -139,49 +142,43 @@ class OwnCounterState extends State<OwnCounter> {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton(
-              onPressed: _decrementDisabled ? null : _decrementCounter,
-              backgroundColor:
-                  _decrementDisabled ? Colors.grey : Colors.deepPurple,
-              child: const Icon(Icons.remove),
-            ),
-            Expanded(
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  disabledColor: Colors.black,
-                ),
-                child: TextFormField(
-                  style: const TextStyle(color: Colors.black),
-                  enabled: widget.isEditable,
-                  keyboardType: TextInputType.number,
-                  focusNode: _focusNode,
-                  autocorrect: false,
-                  controller: _controller,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  textAlign: TextAlign.center,
-                  onChanged: _setCounterVal,
-                  onEditingComplete: () =>
-                      _setCounterVal(_controller.text, isEditingComplete: true),
-                  decoration: InputDecoration(
-                    fillColor: Colors.white.withAlpha(100),
-                    label: Text(widget.label ?? ''),
-                    hintText: '${widget.minVal} - ${widget.maxVal}',
-                  ),
-                ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FloatingActionButton(
+          onPressed: _decrementDisabled ? null : _decrementCounter,
+          backgroundColor: _decrementDisabled ? Colors.grey : Colors.deepPurple,
+          child: const Icon(Icons.remove),
+        ),
+        Expanded(
+          child: Theme(
+            data: Theme.of(context).copyWith(disabledColor: Colors.white70),
+            child: TextFormField(
+              style: const TextStyle(color: Colors.white),
+              enabled: widget.isEditable,
+              keyboardType: TextInputType.number,
+              focusNode: _focusNode,
+              autocorrect: false,
+              controller: _controller,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              textAlign: TextAlign.center,
+              onChanged: _setCounterVal,
+              onEditingComplete: () =>
+                  _setCounterVal(_controller.text, isEditingComplete: true),
+              decoration: InputDecoration(
+                fillColor: Colors.white.withAlpha(100),
+                label: Text(widget.label ?? ''),
+                hintText: '${widget.minVal} - ${widget.maxVal}',
               ),
             ),
-            FloatingActionButton(
-              onPressed: _incrementDisabled ? null : _incrementCounter,
-              backgroundColor:
-                  _incrementDisabled ? Colors.grey : Colors.deepPurple,
-              child: const Icon(Icons.add),
-            ),
-          ],
+          ),
         ),
-      );
+        FloatingActionButton(
+          onPressed: _incrementDisabled ? null : _incrementCounter,
+          backgroundColor: _incrementDisabled ? Colors.grey : Colors.deepPurple,
+          child: const Icon(Icons.add),
+        ),
+      ],
+    ),
+  );
 }

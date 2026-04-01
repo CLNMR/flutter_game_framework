@@ -33,60 +33,71 @@ class _HomeScreenState extends ConsumerState<NewGameScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const OwnText(text: 'HEAD:NewGame'),
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      title: const OwnText(text: 'HEAD:NewGame'),
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+    ),
+    body: Center(
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
+        constraints: const BoxConstraints(maxWidth: 400),
+        decoration: BoxDecoration(
+          color: Colors.black54,
+          borderRadius: BorderRadius.circular(12),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                OwnText(text: _game.gameId.toString(), translate: false),
-                OwnSwitch(
-                  firstOptionKey: 'Offline',
-                  secondOptionKey: 'Online',
-                  secondOption: _game.online,
-                  onChange: (value) {
-                    setState(() => _game.online = value);
-                  },
-                ),
-                if (_game.online) ...[
-                  OwnSwitch(
-                    firstOptionKey: 'Private',
-                    secondOptionKey: 'Public',
-                    secondOption: _game.public,
-                    onChange: (value) {
-                      setState(() => _game.public = value);
-                    },
-                  ),
-                  if (!_game.public)
-                    OwnTextField(
-                      label: 'password',
-                      initialText: _game.password,
-                      onChanged: (value) {
-                        setState(() => _game.password = value);
-                      },
-                    ),
-                ],
-                OwnButton(
-                  text: 'StartGame',
-                  onPressed: () async {
-                    final router = GoRouter.of(context);
-                    _game.init();
-                    await _game.tryAddUser(ref.user!);
-                    await router.pushNamed(
-                      gameScreenRoute.path,
-                      pathParameters: {'gameId': _game.id},
-                    );
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            OwnText(text: _game.gameId.toString(), translate: false),
+            const SizedBox(height: 24),
+            OwnSwitch(
+              firstOptionKey: 'Offline',
+              secondOptionKey: 'Online',
+              secondOption: _game.online,
+              onChange: (value) {
+                setState(() => _game.online = value);
+              },
+            ),
+            if (_game.online) ...[
+              const SizedBox(height: 16),
+              OwnSwitch(
+                firstOptionKey: 'Private',
+                secondOptionKey: 'Public',
+                secondOption: _game.public,
+                onChange: (value) {
+                  setState(() => _game.public = value);
+                },
+              ),
+              if (!_game.public) ...[
+                const SizedBox(height: 16),
+                OwnTextField(
+                  label: 'password',
+                  initialText: _game.password,
+                  onChanged: (value) {
+                    setState(() => _game.password = value);
                   },
                 ),
               ],
+            ],
+            const SizedBox(height: 24),
+            OwnButton(
+              text: 'StartGame',
+              onPressed: () async {
+                final router = GoRouter.of(context);
+                _game.init();
+                await _game.tryAddUser(ref.user!);
+                await router.pushNamed(
+                  gameScreenRoute.name!,
+                  pathParameters: {'gameId': _game.id},
+                );
+              },
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 // /// The color of light buttons, accent text, dividers, favorites, etc.
@@ -68,61 +69,68 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 // In that case remove them after copying this theme to your app.
 
 /// The light theme
-final lightTheme = FlexThemeData.light(
-  scheme: FlexScheme.yellowM3,
-  surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
-  blendLevel: 2,
-  subThemesData: const FlexSubThemesData(
-    blendOnLevel: 10,
-    blendOnColors: false,
-    useMaterial3Typography: true,
-    outlinedButtonOutlineSchemeColor: SchemeColor.primary,
-    outlinedButtonPressedBorderWidth: 2,
-    toggleButtonsBorderSchemeColor: SchemeColor.primary,
-    segmentedButtonSchemeColor: SchemeColor.primary,
-    segmentedButtonBorderSchemeColor: SchemeColor.primary,
-    unselectedToggleIsColored: true,
-    sliderValueTinted: true,
-    inputDecoratorSchemeColor: SchemeColor.primary,
-    inputDecoratorBackgroundAlpha: 21,
-    inputDecoratorBorderType: FlexInputBorderType.outline,
-    inputDecoratorIsFilled: true,
-    inputDecoratorRadius: 12,
-    inputDecoratorUnfocusedHasBorder: false,
-    inputDecoratorPrefixIconSchemeColor: SchemeColor.primary,
-    popupMenuRadius: 6,
-    popupMenuElevation: 8,
-    alignedDropdown: true,
-    useInputDecoratorThemeInDialogs: true,
-    drawerIndicatorSchemeColor: SchemeColor.primary,
-    bottomNavigationBarMutedUnselectedLabel: false,
-    bottomNavigationBarMutedUnselectedIcon: false,
-    menuRadius: 6,
-    menuElevation: 8,
-    menuBarRadius: 0,
-    menuBarElevation: 1,
-    navigationBarSelectedLabelSchemeColor: SchemeColor.primary,
-    navigationBarMutedUnselectedLabel: false,
-    navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
-    navigationBarMutedUnselectedIcon: false,
-    navigationBarIndicatorSchemeColor: SchemeColor.primary,
-    navigationBarIndicatorOpacity: 1,
-    navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
-    navigationRailMutedUnselectedLabel: false,
-    navigationRailSelectedIconSchemeColor: SchemeColor.onPrimary,
-    navigationRailMutedUnselectedIcon: false,
-    navigationRailIndicatorSchemeColor: SchemeColor.primary,
-    navigationRailIndicatorOpacity: 1,
-  ),
-  visualDensity: FlexColorScheme.comfortablePlatformDensity,
-  useMaterial3: true,
-  // To use the Playground font, add GoogleFonts package and uncomment
-  fontFamily: 'Roboto', // GoogleFonts.notoSans().fontFamily,
-);
+final lightTheme =
+    FlexThemeData.light(
+      scheme: FlexScheme.mango,
+      surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
+      blendLevel: 2,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 10,
+        blendOnColors: false,
+        useMaterial3Typography: true,
+        outlinedButtonOutlineSchemeColor: SchemeColor.primary,
+        outlinedButtonPressedBorderWidth: 2,
+        toggleButtonsBorderSchemeColor: SchemeColor.primary,
+        segmentedButtonSchemeColor: SchemeColor.primary,
+        segmentedButtonBorderSchemeColor: SchemeColor.primary,
+        unselectedToggleIsColored: true,
+        sliderValueTinted: true,
+        inputDecoratorSchemeColor: SchemeColor.primary,
+        inputDecoratorBackgroundAlpha: 21,
+        inputDecoratorBorderType: FlexInputBorderType.outline,
+        inputDecoratorIsFilled: true,
+        inputDecoratorRadius: 12,
+        inputDecoratorUnfocusedHasBorder: false,
+        inputDecoratorPrefixIconSchemeColor: SchemeColor.primary,
+        popupMenuRadius: 6,
+        popupMenuElevation: 8,
+        alignedDropdown: true,
+        useInputDecoratorThemeInDialogs: true,
+        drawerIndicatorSchemeColor: SchemeColor.primary,
+        bottomNavigationBarMutedUnselectedLabel: false,
+        bottomNavigationBarMutedUnselectedIcon: false,
+        menuRadius: 6,
+        menuElevation: 8,
+        menuBarRadius: 0,
+        menuBarElevation: 1,
+        navigationBarSelectedLabelSchemeColor: SchemeColor.primary,
+        navigationBarMutedUnselectedLabel: false,
+        navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
+        navigationBarMutedUnselectedIcon: false,
+        navigationBarIndicatorSchemeColor: SchemeColor.primary,
+        navigationBarIndicatorOpacity: 1,
+        navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
+        navigationRailMutedUnselectedLabel: false,
+        navigationRailSelectedIconSchemeColor: SchemeColor.onPrimary,
+        navigationRailMutedUnselectedIcon: false,
+        navigationRailIndicatorSchemeColor: SchemeColor.primary,
+        navigationRailIndicatorOpacity: 1,
+      ),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      useMaterial3: true,
+      // To use the Playground font, add GoogleFonts package and uncomment
+      fontFamily: 'Roboto', // GoogleFonts.notoSans().fontFamily,
+    ).copyWith(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black26,
+        foregroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+    );
 
 /// The dark theme
 final darkTheme = FlexThemeData.dark(
-  scheme: FlexScheme.yellowM3,
+  scheme: FlexScheme.mango,
   surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
   blendLevel: 25,
   darkIsTrueBlack: true,

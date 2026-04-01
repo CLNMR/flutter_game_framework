@@ -20,31 +20,36 @@ class SettingScreen extends ConsumerStatefulWidget {
 class _SettingScreenState extends ConsumerState<SettingScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: const OwnText(text: 'HEAD:account', type: OwnTextType.title),
-          backgroundColor: Colors.black26,
-          foregroundColor: Colors.white,
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                const Text(
-                  // ignore: lines_longer_than_80_chars
-                  'Settting stuff. Switching default parameters for games not implemented yet.',
-                ),
-                const Spacer(),
-                OwnButton(
-                  text: 'ChangeLocale',
-                  onPressed: _changeLocale,
-                ),
-              ],
-            ),
+    backgroundColor: Colors.transparent,
+    appBar: AppBar(
+      title: const OwnText(text: 'HEAD:account', type: OwnTextType.title),
+      backgroundColor: Colors.black26,
+      foregroundColor: Colors.white,
+    ),
+    body: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const OwnText(
+                text: 'Settings not implemented yet.',
+                translate: false,
+              ),
+              const SizedBox(height: 24),
+              OwnButton(text: 'ChangeLocale', onPressed: _changeLocale),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   Future<void> _changeLocale() async {
     final router = GoRouter.of(context);

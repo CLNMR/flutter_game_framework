@@ -7,18 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yust/yust.dart';
-import 'package:yust_ui/yust_ui.dart';
 
 import 'custom_icons.dart';
 
 /// Displays buttons for signing in with different OAuth authentication methods.
 class OAuthButton extends ConsumerWidget {
   /// Creates an [OAuthButton].
-  const OAuthButton({
-    super.key,
-    required this.authMethod,
-    this.redirection,
-  });
+  const OAuthButton({super.key, required this.authMethod, this.redirection});
 
   /// The authentication method to display the button for.
   final YustAuthenticationMethod authMethod;
@@ -42,11 +37,7 @@ class OAuthButton extends ConsumerWidget {
           key: key,
           style: buttonStyle,
           onPressed: onPressed,
-          icon: SizedBox(
-            width: double.infinity,
-            height: 40,
-            child: icon,
-          ),
+          icon: SizedBox(width: double.infinity, height: 40, child: icon),
         ),
       ),
     );
@@ -108,9 +99,9 @@ class OAuthButton extends ConsumerWidget {
     await _signInWithProvider(
       context,
       ref,
-      () async => Yust.authService
-          .signInWithMicrosoft()
-          .timeout(const Duration(seconds: 300)),
+      () async => Yust.authService.signInWithMicrosoft().timeout(
+        const Duration(seconds: 300),
+      ),
       redirection,
     );
   }
@@ -119,9 +110,9 @@ class OAuthButton extends ConsumerWidget {
     await _signInWithProvider(
       context,
       ref,
-      () async => Yust.authService
-          .signInWithGoogle()
-          .timeout(const Duration(seconds: 300)),
+      () async => Yust.authService.signInWithGoogle().timeout(
+        const Duration(seconds: 300),
+      ),
       redirection,
     );
   }
@@ -130,9 +121,9 @@ class OAuthButton extends ConsumerWidget {
     await _signInWithProvider(
       context,
       ref,
-      () async => Yust.authService
-          .signInWithApple()
-          .timeout(const Duration(seconds: 300)),
+      () async => Yust.authService.signInWithApple().timeout(
+        const Duration(seconds: 300),
+      ),
       redirection,
     );
   }
@@ -153,17 +144,17 @@ class OAuthButton extends ConsumerWidget {
         router.go('/');
       }
     } on PlatformException catch (err) {
-      await YustUi.alertService.showAlert('Error', err.message!);
+      if (!context.mounted) return;
+      _showError(context, err.message ?? 'Unknown error');
     } on TimeoutException catch (_) {
-      await YustUi.alertService.showAlert(
-        'Error',
-        'Timeout while trying to sign in.',
-      );
+      if (!context.mounted) return;
+      _showError(context, 'Timeout while trying to sign in.');
     } on FirebaseAuthException catch (err) {
-      final errorMessage = err.toString();
-      await YustUi.alertService.showAlert('Error', errorMessage);
+      if (!context.mounted) return;
+      _showError(context, err.toString());
     } catch (err) {
-      await YustUi.alertService.showAlert('Error', err.toString());
+      if (!context.mounted) return;
+      _showError(context, err.toString());
     }
   }
 
@@ -173,5 +164,11 @@ class OAuthButton extends ConsumerWidget {
     properties
       ..add(EnumProperty<YustAuthenticationMethod>('authMethod', authMethod))
       ..add(StringProperty('redirection', redirection));
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
   }
 }

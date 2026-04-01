@@ -42,32 +42,40 @@ class OwnButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        onPressed: onPressed,
-        child: SizedBox(
-          width: 200,
-          height: 60,
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (icon != null) Icon(icon),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      translate
-                          ? trObject == null
-                              ? context.tr('BUT:$text')
-                              : context.trFromObject(trObject!)
-                          : text,
-                      style: const TextStyle(fontSize: 18),
-                    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+      elevation: 4,
+    ),
+    onPressed: onPressed,
+    child: SizedBox(
+      width: 200,
+      height: 60,
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) Icon(icon),
+            Expanded(
+              child: Center(
+                child: Text(
+                  translate
+                      ? trObject == null
+                            ? context.tr('BUT:$text')
+                            : context.trFromObject(trObject!)
+                      : text,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

@@ -35,66 +35,60 @@ class OwnSwitch extends StatelessWidget {
       ..add(DiagnosticsProperty<bool>('secondOption', secondOption))
       ..add(
         // ignore: avoid_positional_boolean_parameters
-        ObjectFlagProperty<void Function(bool value)>.has(
-          'onChange',
-          onChange,
-        ),
+        ObjectFlagProperty<void Function(bool value)>.has('onChange', onChange),
       );
   }
 
   @override
   Widget build(BuildContext context) => Stack(
-        alignment: Alignment.center,
+    alignment: Alignment.center,
+    children: [
+      Positioned.fill(
+        left: secondOption ? null : 0,
+        right: secondOption ? 0 : null,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const SizedBox(width: 100, height: 40),
+        ),
+      ),
+      Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Positioned.fill(
-            left: secondOption ? null : 0,
-            right: secondOption ? 0 : null,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const SizedBox(
-                width: 100,
-                height: 40,
+          SizedBox(
+            width: 100,
+            height: 40,
+            child: Center(
+              child: Text(
+                context.tr('SWITCH:$firstOptionKey'),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 100,
-                height: 40,
-                child: Center(
-                  child: Text(context.tr('SWITCH:$firstOptionKey')),
-                ),
-              ),
-              SizedBox(
-                width: 100,
-                height: 40,
-                child: Center(
-                  child: Text(context.tr('SWITCH:$secondOptionKey')),
-                ),
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () => onChange(!secondOption),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const SizedBox(
-                width: 200,
-                height: 40,
+          SizedBox(
+            width: 100,
+            height: 40,
+            child: Center(
+              child: Text(
+                context.tr('SWITCH:$secondOptionKey'),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
         ],
-      );
+      ),
+      GestureDetector(
+        onTap: () => onChange(!secondOption),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white70, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const SizedBox(width: 200, height: 40),
+        ),
+      ),
+    ],
+  );
 }
