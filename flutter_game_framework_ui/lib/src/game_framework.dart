@@ -1,7 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../generated/l10n.dart';
 
 import 'design/theme_constants.dart' as theme_constants;
 import 'screens/gf_router.dart';
@@ -37,23 +36,16 @@ class _GameFrameworkState extends ConsumerState<GameFramework> {
               theme: widget._lightTheme ?? theme_constants.lightTheme,
               darkTheme: widget._darkTheme ?? theme_constants.darkTheme,
               themeMode: ThemeMode.light,
-              localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              // locale: context.locale, // TODO: Add locale
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               routerConfig: _router.router,
             ),
           ),
-        
+
       );
 
   BoxDecoration _getBackgroundImage(BuildContext context) {
-    // final pathToBackground = 'assets/images/backgrounds/background_'
-    //     '${context.isDarkMode ? 'dark' : 'light'}.jpg';
     const pathToBackground = 'assets/images/background.png';
     return const BoxDecoration(
       image: DecorationImage(

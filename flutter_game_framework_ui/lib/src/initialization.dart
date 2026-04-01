@@ -52,23 +52,6 @@ Future<void> initialize({
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfig(emulatorAddress: emulatorAddress);
 
-  // if (const bool.fromEnvironment('testMode', defaultValue: false)) { TODO: Something else in testMode?
-  //   runApp(
-  //     EasyLocalization(
-  //       supportedLocales: const [
-  //         Locale('en', 'US'),
-  //         Locale('de', 'DE'),
-  //       ],
-  //       path: 'assets/localizables',
-  //       fallbackLocale: const Locale('en', 'US'),
-  //       child: const ProviderScope(
-  //         child: TestWidget(),
-  //       ),
-  //     ),
-  //   );
-  //   return;
-  // }
-
   await Yust(forUI: true).initialize(
     firebaseOptions: AppConfig.config.getFirebaseOptions(),
     projectId: AppConfig.config.projectId,
