@@ -9,7 +9,7 @@ part 'game_id.g.dart';
 /// The ID of a game.
 class GameId {
   /// Creates a [GameId].
-  GameId(this.value);
+  const GameId(this.value);
 
   /// Generates a [GameId] from a string.
   factory GameId.generate() => GameId(''.randomNumbers(9));

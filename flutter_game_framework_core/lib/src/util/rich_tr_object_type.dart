@@ -1,6 +1,7 @@
 import 'custom_types.dart';
 
 /// The special translation type for a TrObject.
+// ignore: prefer-match-file-name
 class RichTrType {
   /// Creates a [RichTrType] with the given [name] and [valueType].
   const RichTrType(this.name, this.valueType);

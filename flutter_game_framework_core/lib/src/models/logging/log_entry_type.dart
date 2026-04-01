@@ -24,6 +24,7 @@ class LogEntryType {
   /// The name of the log entry type.
   final String name;
 
-  /// The constructor of the logEntry from a json.
+  /// The factory to create a [LogEntry] from JSON.
+  // ignore: prefer-correct-callback-field-name
   final LogEntry Function(Map<String, dynamic>) fromJson;
 }

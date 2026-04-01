@@ -7,5 +7,6 @@ extension StringExtension on String {
 
   /// Returns a string of [length] random numbers.
   String randomNumbers(int length) =>
+      // ignore: prefer-number-format
       Random().nextInt(pow(10, length).toInt()).toString().padLeft(length, '0');
 }

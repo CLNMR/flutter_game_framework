@@ -126,5 +126,15 @@ dart_code_metrics:
     rules:
         avoid-dynamic: false
         avoid-throw-in-catch-block: false
+        # Game logic intentionally uses indexed access and firstWhere on known-valid data.
+        avoid-unsafe-collection-methods: false
+        # Shadowing in service_generator.dart is structural and intentional.
+        avoid-shadowing: false
+        # Not all classes need toString for debug purposes.
+        avoid-default-tostring: false
+        # Dot shorthands require Dart >=3.6, but SDK floor is 3.4.1.
+        prefer-shorthands-with-enums: false
+        prefer-shorthands-with-static-fields: false
+        prefer-returning-shorthands: false
     pubspec-rules:
         prefer-caret-version-syntax: false

@@ -1,6 +1,7 @@
 // TODO: Make these values configurable.
 
 /// Different environments the app can run in.
+// ignore: prefer-match-file-name
 enum OwnEnvironment {
   /// This is set while the app is running in production mode.
   production,
@@ -37,7 +38,7 @@ enum OwnPlatform {
 /// The configuration of the app.
 class AppConfig {
   /// Creates an [AppConfig].
-  AppConfig({
+  const AppConfig({
     required this.environment,
     required this.platform,
     required this.basicUrl,
@@ -112,24 +113,22 @@ class AppConfig {
       AppConfig.config.environment == OwnEnvironment.testing;
 
   /// Initializes the app configuration.
-  static Future<void> initialize({
+  static void initialize({
     required OwnEnvironment env,
     required OwnPlatform platform,
     String? emulatorDomain,
     required Map<String, String> firebaseSettings,
-  }) async {
+  }) {
     final isProd = env == OwnEnvironment.production;
     final isEmu = env == OwnEnvironment.emulator;
     try {
       AppConfig.config = AppConfig(
         environment: env,
         platform: platform,
-        basicUrl: isProd ? '...' : '...',
+        basicUrl: '...',
         apiUrl: isEmu
-            ? 'http://$emulatorDomain:8080/trickingbees-dev/us-central1/api/v1/'
-            : isProd
-                ? '...'
-                : '...',
+            ? 'http://${emulatorDomain ?? ''}:8080/trickingbees-dev/us-central1/api/v1/'
+            : '...',
         apiKeyFirebase:
             isProd || isEmu ? firebaseSettings['apiKeyFirebase']! : '...',
         appIdAndroid: isProd ? firebaseSettings['appIdAndroid']! : '...',
@@ -154,15 +153,17 @@ class AppConfig {
 
   /// Returns the Firebase options for the current platform.
   Map<String, String> getFirebaseOptions() {
-    String appId;
+    final String appId;
     switch (platform) {
       case OwnPlatform.ios:
         appId = appIdIos;
-        break;
+
       case OwnPlatform.android:
         appId = appIdAndroid;
-        break;
-      default:
+
+      case OwnPlatform.web:
+      case OwnPlatform.googleCloud:
+      case OwnPlatform.localServer:
         appId = appIdWeb;
     }
     return {

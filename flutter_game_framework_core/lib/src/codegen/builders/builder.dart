@@ -5,5 +5,5 @@ import '../annotations/generate_service.dart';
 import 'service_generator.dart';
 
 /// Generates a service for each class annotated with [GenerateService].
-Builder generateService(BuilderOptions options) =>
+Builder generateService(BuilderOptions _) =>
     LibraryBuilder(ServiceGenerator(), generatedExtension: '.service.dart');

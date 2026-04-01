@@ -10,6 +10,7 @@ part 'end_of_game.g.dart';
 @JsonSerializable()
 
 /// An entry to a card that the solo player chooses.
+// ignore: prefer-match-file-name
 class LogEndOfGame extends LogEntry {
   /// Creates a [LogEndOfGame].
   LogEndOfGame({
@@ -24,10 +25,8 @@ class LogEndOfGame extends LogEntry {
       _$LogEndOfGameFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$LogEndOfGameToJson(this)
-    ..addEntries([
-      MapEntry('entryType', entryType.name),
-    ]);
+  Map<String, dynamic> toJson() =>
+      _$LogEndOfGameToJson(this)..['entryType'] = entryType.name;
 
   @override
   TrObject getDescription(Game game) => TrObject(

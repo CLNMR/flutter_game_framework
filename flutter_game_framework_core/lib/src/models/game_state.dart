@@ -10,6 +10,7 @@ enum GameState {
   finished(0xe876),
 
   /// The game was abandoned.
+  // ignore: avoid-duplicate-constant-values
   abandoned(0xe876);
 
   const GameState(this.iconCodePoint);
@@ -18,5 +19,5 @@ enum GameState {
   final int iconCodePoint;
 
   /// Converts the [GameState] to JSON data.
-  String toJson() => toString().split('.').last;
+  String toJson() => name;
 }

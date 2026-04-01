@@ -4,6 +4,7 @@ import '../util/tr_object.dart';
 import 'game/game.dart';
 
 /// An event of the game.
+// ignore_for_file: no-empty-block
 abstract class GameEventHandler {
   /// Whether this event is currently active.
   /// If an event is active, its effects are currently needed to be considered.

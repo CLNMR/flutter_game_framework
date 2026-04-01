@@ -24,10 +24,8 @@ class UnknownLogEntry extends LogEntry {
       _$UnknownLogEntryFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnknownLogEntryToJson(this)
-    ..addEntries([
-      MapEntry('entryType', entryType.name),
-    ]);
+  Map<String, dynamic> toJson() =>
+      _$UnknownLogEntryToJson(this)..['entryType'] = entryType.name;
 
   @override
   TrObject getDescription(Game game) =>

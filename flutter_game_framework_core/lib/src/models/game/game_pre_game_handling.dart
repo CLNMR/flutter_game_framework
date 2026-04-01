@@ -1,12 +1,13 @@
 part of 'game.dart';
 
 /// Handles the registration of players and the start of the game
+// ignore: prefer-match-file-name
 extension GamePreGameHandlingExt on Game {
   /// Adds the given user to the game, if he is not already present.
   Future<void> tryAddUser(
     YustUser user, {
     bool shouldSave = true,
-  }) async =>
+  }) =>
       tryAddPlayer(Player.fromUser(user), shouldSave: shouldSave);
 
   /// Adds the given player to the game, if he is not already present.
@@ -45,6 +46,7 @@ extension GamePreGameHandlingExt on Game {
     await game.save();
     if (!online) {
       for (var i = 1; i < playerNum; i++) {
+        // ignore: prefer-number-format
         await game.tryAddPlayer(Player(id: 'bot$i', displayName: 'Bot $i'));
       }
       await game.startGame();
@@ -61,6 +63,7 @@ extension GamePreGameHandlingExt on Game {
     await customStartLogic();
   }
 
-  /// Custom starting logic for the game.
+  /// Custom starting logic for the game. Override in subclass.
+  // ignore: no-empty-block, avoid-redundant-async, avoid-unnecessary-futures
   Future<void> customStartLogic() async {}
 }

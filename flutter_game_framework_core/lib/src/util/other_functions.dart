@@ -19,18 +19,3 @@ List<String> getUniqueStartSubstrings(Iterable<String> inputStrings) {
   }
   return result;
 }
-
-// void main() { // TODO
-  // final test = [
-  //   'Alan',
-  //   'Alastair',
-  //   'alex',
-  //   'Henry',
-  //   'Holger',
-  //   'Johannes',
-  //   'Klaus',
-  // ];
-
-  // final test = ['Player 1', 'Player 2'];
-  // print(getUniqueStartSubstrings(test)); // [Alan, Alas, ale, He, Ho, J, K]
-// }

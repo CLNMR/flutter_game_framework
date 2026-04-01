@@ -38,7 +38,6 @@ abstract class Game extends YustDoc {
         players = players ?? [],
         playOrder = playOrder ?? List.generate(playerNum, (index) => index),
         flags = flags ?? {};
-  // logEntries = existingLogEntries ?? {};
 
   /// The ID of the game in the format NNN-NNN-NNN.
   final GameId gameId;
@@ -71,12 +70,7 @@ abstract class Game extends YustDoc {
   List<PlayerIndex> playOrder;
 
   /// Stores all flags for the current cards and event.
-  // @JsonKey(includeFromJson: true, includeToJson: true)
   final Map<String, dynamic> flags;
-
-  /// All of the log entries for the game.
-  /// Maps the round number (outer map) and the turn number (inner map) with it.
-  // final Map<RoundNumber, List<LogEntry>> logEntries;
 
   /// The players other than the user's player, starting at their index.
   List<Player> getOtherPlayers(YustUser? user) => List.generate(

@@ -8,7 +8,7 @@ part 'player.g.dart';
 /// A player of the game.
 class Player {
   /// Creates a [Player].
-  Player({
+  const Player({
     required this.id,
     required this.displayName,
   });
@@ -32,7 +32,7 @@ class Player {
   final String displayName;
 
   /// An empty [Player].
-  static final empty = Player(
+  static const empty = Player(
     id: 'EMPTY',
     displayName: 'EMPTY',
   );

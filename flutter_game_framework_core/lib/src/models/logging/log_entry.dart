@@ -43,14 +43,15 @@ abstract class LogEntry {
   TrObject getDescription(Game game);
 
   /// Shows the event display, to be reimplemented.
-  Future<void> showEventDisplay(
+  /// Shows the event display, to be reimplemented.
+  void showEventDisplay(
     Game game,
     Function(
       TrObject title,
       TrObject message,
     ) displayEvent,
     Function() incrementLogDisplayCount,
-  ) async {
+  ) {
     incrementLogDisplayCount();
   }
 
