@@ -65,6 +65,7 @@ class LogEntryListDisplay extends ConsumerStatefulWidget {
 
 class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
   final _scrollController = ScrollController();
+  final _expansionControllers = <RoundNumber, ExpandableController>{};
   bool _isMinimized = false;
 
   @override
@@ -78,8 +79,17 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
   @override
   void dispose() {
     _scrollController.dispose();
+    for (final controller in _expansionControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
+
+  ExpandableController _getExpansionController(RoundNumber round) =>
+      _expansionControllers.putIfAbsent(round, () {
+        final isExpanded = widget.expandedRounds?.contains(round) ?? true;
+        return ExpandableController(initialExpanded: isExpanded);
+      });
 
   void _scrollToBottom({bool force = false}) {
     if (!_scrollController.hasClients) return;
@@ -162,9 +172,8 @@ class _LogEntryListDisplayState extends ConsumerState<LogEntryListDisplay> {
     RoundNumber round,
     List<LogEntry> entries,
   ) {
-    final isExpanded = widget.expandedRounds?.contains(round) ?? true;
     return ExpandablePanel(
-      controller: ExpandableController(initialExpanded: isExpanded),
+      controller: _getExpansionController(round),
       theme: const ExpandableThemeData(
         headerAlignment: ExpandablePanelHeaderAlignment.center,
         iconColor: Colors.white,
