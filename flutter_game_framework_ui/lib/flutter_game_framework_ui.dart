@@ -6,6 +6,7 @@ export 'src/initialization.dart';
 export 'src/util/app_gradients.dart';
 export 'src/util/context_extension.dart';
 export 'src/util/game_id_formatter.dart';
+export 'src/util/merged_asset_loader.dart';
 export 'src/util/providers.dart';
 export 'src/util/ref_extension.dart';
 export 'src/util/rich_tr_object_extension.dart';
