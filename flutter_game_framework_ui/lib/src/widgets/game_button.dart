@@ -1,9 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../flutter_game_framework_ui.dart';
 import '../util/app_gradients.dart';
 import '../util/widget_ref_extension.dart';

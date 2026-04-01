@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,8 +50,6 @@ Future<void> initialize({
   _createNewGame = createNewGame;
   getSpans = getSpans;
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  EasyLocalization.logger.enableBuildModes = [];
   await _initAppConfig(emulatorAddress: emulatorAddress);
 
   // if (const bool.fromEnvironment('testMode', defaultValue: false)) { TODO: Something else in testMode?

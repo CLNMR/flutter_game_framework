@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-match-file-name
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';

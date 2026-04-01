@@ -1,9 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
-
+import 'package:flutter_gen/gen_l10n/game_framework_localizations.dart';
 import 'rich_tr_object_extension.dart';
 import '../initialization.dart';
+import 'package:flutter/widgets.dart' show BuildContext;
 
 /// An extension for [BuildContext].
 extension BuildContextExtension on BuildContext {
@@ -15,7 +15,7 @@ extension BuildContextExtension on BuildContext {
     final translatedNamedArgs = trObject.namedArgsTrObjects?.map(
       (key, value) => MapEntry(key, trFromObject(value)),
     );
-    return tr(
+    return loc.tr(
       trObject.text,
       args: trObject.args,
       namedArgs: {}
@@ -60,3 +60,27 @@ extension BuildContextExtension on BuildContext {
     return TextSpan(children: spans);
   }
 }
+
+  
+
+class MissingFlutterQuillLocalizationException extends UnimplementedError {
+  MissingFlutterQuillLocalizationException();
+  @override
+  String? get message =>
+      '$AppLocalizations instance is required and could not found.\n'
+      'Add the delegate `AppLocalizations.delegate` to your widget app (e.g., MaterialApp) to fix.\n'
+      'If the issue continues, consider reporting a bug.\n'
+      'See https://github.com/singerdmx/flutter-quill/blob/master/doc/translation.md';
+}
+
+extension LocalizationsExt on BuildContext {
+  /// Require the [AppLocalizations] instance.
+  ///
+  /// `loc` is short for `localizations`
+  AppLocalizations get loc {
+    return AppLocalizations.of(this) ??
+        (throw MissingFlutterQuillLocalizationException());
+  }
+}
+
+

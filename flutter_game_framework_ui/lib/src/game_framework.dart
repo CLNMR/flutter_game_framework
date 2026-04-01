@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../generated/l10n.dart';
 
 import 'design/theme_constants.dart' as theme_constants;
 import 'screens/gf_router.dart';
@@ -29,27 +30,25 @@ class _GameFrameworkState extends ConsumerState<GameFramework> {
   }
 
   @override
-  Widget build(BuildContext context) => EasyLocalization(
-        supportedLocales: const [
-          Locale('en', 'US'),
-          Locale('de', 'DE'),
-        ],
-        path: 'assets/localizables', // TODO: Pass in to GameFramework
-        fallbackLocale: const Locale('en', 'US'),
-        child: ProviderScope(
+  Widget build(BuildContext context) => ProviderScope(
           child: DecoratedBox(
             decoration: _getBackgroundImage(context),
             child: MaterialApp.router(
               theme: widget._lightTheme ?? theme_constants.lightTheme,
               darkTheme: widget._darkTheme ?? theme_constants.darkTheme,
               themeMode: ThemeMode.light,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              // locale: context.locale, // TODO: Add locale
               routerConfig: _router.router,
             ),
           ),
-        ),
+        
       );
 
   BoxDecoration _getBackgroundImage(BuildContext context) {

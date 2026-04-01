@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
+import 'package:flutter_game_framework_ui/src/util/context_extension.dart';
 
 /// Adds utility to display enriched text.
 extension UiRichTrObject on RichTrObject {
@@ -49,7 +49,7 @@ extension UiRichTrObject on RichTrObject {
       ..removeLast();
 
     if (spans.length > 1) {
-      spans[spans.length - 2] = TextSpan(text: 'connectiveAnd'.tr());
+      spans[spans.length - 2] = TextSpan(text: context.loc.connectiveAnd);
     }
     return TextSpan(
       children: spans,
