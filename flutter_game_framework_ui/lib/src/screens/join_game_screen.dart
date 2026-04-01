@@ -120,7 +120,7 @@ class _HomeScreenState extends ConsumerState<JoinGameScreen> {
           borderRadius: BorderRadius.circular(3),
         ),
         child: YustDocsBuilder<Game>(
-          // TODO: Build properly with a dynamically loading list
+          // LATER: Replace with paginated/infinite scroll list
           modelSetup: gameSetup,
           builder: (g, _, __) {
             final games = g

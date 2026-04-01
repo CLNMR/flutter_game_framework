@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:yust/yust.dart';
 
 import '../codegen/annotations/screen.dart';
 import '../widgets/own_button.dart';
@@ -9,30 +10,42 @@ import '../widgets/own_text.dart';
 import '../widgets/own_text_field.dart';
 import 'login_screen.r.dart';
 
-/// The home screen of the app.
+/// The screen for creating a new account with email and password.
 @Screen()
 class CreateEmailPwScreen extends ConsumerStatefulWidget {
   /// Creates a [CreateEmailPwScreen].
   const CreateEmailPwScreen({super.key});
 
   @override
-  ConsumerState<CreateEmailPwScreen> createState() => _HomeScreenState();
+  ConsumerState<CreateEmailPwScreen> createState() =>
+      _CreateEmailPwScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
-  String _alias = '';
-  String _email = '';
-  String _password = '';
+class _CreateEmailPwScreenState extends ConsumerState<CreateEmailPwScreen> {
+  final _aliasController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  String get _alias => _aliasController.text;
+  String get _email => _emailController.text;
+  String get _password => _passwordController.text;
 
   bool get _canSignUp =>
       _alias.isNotEmpty && _isEmailValid && _password.length >= 6;
 
-  // Email validation using RegExp
   bool get _isEmailValid {
     final emailRegExp = RegExp(
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
     );
     return _email.isNotEmpty && emailRegExp.hasMatch(_email);
+  }
+
+  @override
+  void dispose() {
+    _aliasController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,14 +62,16 @@ class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
             child: Column(
               children: [
                 OwnTextField(
+                  controller: _aliasController,
                   label: 'signUpAlias',
-                  onChanged: (text) => _alias = text,
+                  onChanged: (_) => setState(() {}),
                   autocorrect: false,
                 ),
                 const SizedBox(height: 16),
                 OwnTextField(
+                  controller: _emailController,
                   label: 'signUpEmail',
-                  onChanged: (text) => _email = text,
+                  onChanged: (_) => setState(() {}),
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   style: _email.isNotEmpty && !_isEmailValid
@@ -65,8 +80,9 @@ class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
                 ),
                 const SizedBox(height: 16),
                 OwnTextField(
+                  controller: _passwordController,
                   label: 'signUpPassword',
-                  onChanged: (text) => _password = text,
+                  onChanged: (_) => setState(() {}),
                   obscureText: true,
                   autocorrect: false,
                   style: _password.isNotEmpty && _password.length < 6
@@ -76,9 +92,7 @@ class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
                 const SizedBox(height: 16),
                 OwnButton(
                   text: 'CreateAccount',
-                  // TODO: Disable button if not _canSignUp, but need to set
-                  // state on every text entry and implement controllers.
-                  onPressed: _trySignUp,
+                  onPressed: _canSignUp ? _trySignUp : null,
                 ),
               ],
             ),
@@ -87,20 +101,19 @@ class _HomeScreenState extends ConsumerState<CreateEmailPwScreen> {
       );
 
   Future<void> _trySignUp() async {
-    if (!_canSignUp) {
-      return;
-    }
+    if (!_canSignUp) return;
     try {
       final router = GoRouter.of(context);
-      // await Yust.authService.signUp(_alias, '', _email, _password); // TODO: Check what happened to signUp in Yust.authService
-      router.goNamed(
-        LoginScreenRouting.path,
-        // TODO: Implement pathParameters properly, see login_screen.r.dart.
-        // Didn't work when I tried to implement like game_screen.r.dart.
-        // pathParameters: {'email': _email},
+      await Yust.authService.createAccount(
+        _alias,
+        '',
+        _email,
+        _password,
       );
+      router.goNamed(LoginScreenRouting.path);
     } on Exception catch (e) {
       if (kDebugMode) {
+        // ignore: avoid_print
         print(e);
       }
     }

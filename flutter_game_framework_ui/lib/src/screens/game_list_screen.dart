@@ -61,7 +61,7 @@ class _HomeScreenState extends ConsumerState<GameListScreen> {
         Expanded(
           child: YustDocsBuilder<Game>(
             limit: 10,
-            // TODO: Build properly with a dynamically loading list
+            // LATER: Replace with paginated/infinite scroll list
             modelSetup: gameSetup,
             showLoadingSpinner: true,
             builder: (games, _, __) => ListView.builder(

@@ -68,7 +68,7 @@ void main() {
 
     test('additional types can be registered', () {
       final initialLength = RichTrType.values.length;
-      final custom = RichTrType('custom', String);
+      const custom = RichTrType('custom', String);
       RichTrType.values.add(custom);
       expect(RichTrType.values.length, initialLength + 1);
       // Clean up

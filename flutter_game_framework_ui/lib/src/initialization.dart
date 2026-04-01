@@ -9,8 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:yust/yust.dart';
 import 'package:yust_ui/yust_ui.dart';
 
-// TODO: Add offline check for players - after 2 minutes, write new time,
-// after 3 minutes, display as offline
+// LATER: Add offline check for players (write timestamp every 2m, show offline after 3m)
 
 GoRoute? _gameScreenRoute;
 GoRoute get gameScreenRoute {

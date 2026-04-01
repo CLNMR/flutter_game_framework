@@ -120,35 +120,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildResumeLastGameButton(BuildContext context) => OwnButton(
         text: 'LastGame',
-        // TODO: Disable if no games by user exist, and debug filters which
-        // didn't work.
-        onPressed: () async {
-          final router = GoRouter.of(context);
-          final game = await Yust.databaseService.getFirstFromDB<Game>(
-            gameSetup,
-            orderBy: [
-              YustOrderBy(
-                field: 'modifiedAt',
-                descending: true,
-              ),
-            ],
-            // filters: [
-            //   YustFilter(
-            //     field: 'playerNames',
-            //     comparator: YustFilterComparator.arrayContains,
-            //     value: ref.user!.id,
-            //   ),
-            //   YustFilter(
-            //     field: 'gameState',
-            //     comparator: YustFilterComparator.notEqual,
-            //     value: GameState.finished.toJson(),
-            //   ),
-            // ],
-          );
-          if (game == null) return;
-          // print('Opening game: ${game.id}');
-          await router.push('${gameScreenRoute.path}/${game.id}');
-        },
+        onPressed: ref.user == null
+            ? null
+            : () async {
+                final router = GoRouter.of(context);
+                final game = await Yust.databaseService.getFirstFromDB<Game>(
+                  gameSetup,
+                  orderBy: [
+                    YustOrderBy(
+                      field: 'modifiedAt',
+                      descending: true,
+                    ),
+                  ],
+                  filters: [
+                    YustFilter(
+                      field: 'playerNames',
+                      comparator: YustFilterComparator.arrayContains,
+                      value: ref.user!.id,
+                    ),
+                    YustFilter(
+                      field: 'gameState',
+                      comparator: YustFilterComparator.notEqual,
+                      value: GameState.finished.toJson(),
+                    ),
+                  ],
+                );
+                if (game == null) return;
+                await router.push('${gameScreenRoute.path}/${game.id}');
+              },
       );
 
   VoidCallback _goToSettingScreen(BuildContext context) =>

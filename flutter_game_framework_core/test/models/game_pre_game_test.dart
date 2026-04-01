@@ -155,8 +155,11 @@ void main() {
           break;
         }
       }
-      expect(shuffled, isTrue,
-          reason: 'Players should be shuffled at least once in 20 attempts');
+      expect(
+        shuffled,
+        isTrue,
+        reason: 'Players should be shuffled at least once in 20 attempts',
+      );
     });
 
     test('does not shuffle when shufflePlayers is false', () async {

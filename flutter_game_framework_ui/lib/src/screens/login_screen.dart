@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yust/yust.dart';
 
@@ -138,11 +139,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   /// Whether the login button should be disabled.
   bool get isLoginDisabled =>
-      _emailController.text.isEmpty || _passwordController.text.isEmpty;
+      !noAuth &&
+      (_emailController.text.isEmpty || _passwordController.text.isEmpty);
 
   /// Tries to log in the user.
   Future<void> _tryLogin() async {
-    // if (isLoginDisabled && !noAuth) return; TODO
     if (isLoginDisabled) return;
     try {
       final router = GoRouter.of(context);
@@ -163,6 +164,5 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .add(DiagnosticsProperty<bool>('isLoginDisabled', isLoginDisabled));
   }
 
-  // LaterTODO: Show mask to choose alias, save alias in first name instead of
-  // real name
+  // LATER: Show alias chooser mask after login, save alias as firstName
 }
