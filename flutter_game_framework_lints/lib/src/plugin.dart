@@ -5,6 +5,6 @@ import 'rules/missing_translation_key.dart';
 class GameFrameworkLintsPlugin extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-        MissingTranslationKeyRule(),
+        const MissingTranslationKeyRule(),
       ];
 }
