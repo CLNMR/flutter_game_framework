@@ -1,6 +1,8 @@
 library flutter_game_framework_ui;
 
 export 'src/codegen/annotations/screen.dart';
+export 'src/screens/game_screen_base.dart';
+export 'src/screens/waiting_display_base.dart';
 export 'src/game_framework.dart';
 export 'src/initialization.dart';
 export 'src/util/app_gradients.dart';
@@ -25,4 +27,6 @@ export 'src/widgets/own_dropdown_box.dart';
 export 'src/widgets/own_switch.dart';
 export 'src/widgets/own_text_field.dart';
 export 'src/widgets/own_text.dart';
+export 'src/widgets/log_entry_list_display.dart';
 export 'src/widgets/player_icon.dart';
+export 'src/widgets/player_instructions_row.dart';

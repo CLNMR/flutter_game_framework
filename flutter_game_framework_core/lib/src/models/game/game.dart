@@ -2,6 +2,8 @@ import 'package:yust/yust.dart';
 
 import '../../util/custom_types.dart';
 import '../../util/env_variables.dart';
+import '../../util/other_functions.dart';
+import '../../util/tr_object.dart';
 import '../game_id.dart';
 import '../game_state.dart';
 import '../logging/log_entry.dart';
@@ -89,6 +91,21 @@ abstract class Game extends YustDoc {
   /// Returns the index of the given player in the list of players.
   int getPlayerIndex(Player player) =>
       players.indexWhere((other) => other.id == player.id);
+
+  /// Shortened unique player name prefixes for display in log entries.
+  List<String> get shortenedPlayerNames =>
+      getUniqueStartSubstrings(players.map((e) => e.displayName));
+
+  /// Returns the current round number. Override in subclass.
+  int get currentRound => 0;
+
+  /// Returns status messages to display to the user.
+  /// Override in subclass to provide game-specific status.
+  List<TrObject> getStatusMessages(YustUser? user) => [];
+
+  /// Whether the user has something to do (e.g. it's their turn).
+  /// Override in subclass.
+  bool hasStuffToDo(YustUser? user) => false;
 
   /// Copies the game.
   Game copy();
