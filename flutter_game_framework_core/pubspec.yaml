@@ -6,7 +6,7 @@ environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
-  analyzer: any
+  analyzer: '>=6.0.0 <10.0.0'
   build: any
   code_builder: any
   collection: ^1.19.0

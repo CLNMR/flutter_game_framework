@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/visitor.dart';
+import 'package:analyzer/dart/element/visitor2.dart';
 
 /// A visitor that visits [ConstructorElement]s and [ExtensionElement]s
-class ModelVisitor extends SimpleElementVisitor<dynamic> {
+class ModelVisitor extends SimpleElementVisitor2<dynamic> {
   /// The name of the class that is visited.
   String className = '';
 

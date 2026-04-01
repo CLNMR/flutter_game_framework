@@ -18,4 +18,3 @@ export 'src/util/other_functions.dart';
 export 'src/util/rich_tr_object.dart';
 export 'src/util/rich_tr_object_type.dart';
 export 'src/util/tr_object.dart';
-export 'src/util/yust_user_extension.service.dart';

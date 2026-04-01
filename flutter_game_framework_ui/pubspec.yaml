@@ -8,7 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  analyzer: any
+  analyzer: '>=6.0.0 <10.0.0'
   build: any
   code_builder: any
   collection: ^1.19.0
@@ -44,6 +44,7 @@ dev_dependencies:
   flutter_game_framework_lints:
     path: ../flutter_game_framework_lints
   json_serializable: ^6.9.0
+  riverpod_generator:
   lints: ^3.0.0
   matcher: ^0.12.17
   flutter_test:

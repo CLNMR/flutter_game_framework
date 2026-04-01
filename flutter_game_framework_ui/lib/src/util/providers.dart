@@ -1,23 +1,19 @@
-import 'package:flutter_game_framework_core/flutter_game_framework_core.dart'
-    as core;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yust/yust.dart';
 
 part 'providers.g.dart';
 
-@riverpod
-
 /// The current [AuthState].
-Stream<AuthState> authState(AuthStateRef ref) =>
-    Yust.authService.getAuthStateStream();
-
 @riverpod
+Stream<AuthState> authState(Ref ref) => Yust.authService.getAuthStateStream();
 
 /// The current [YustUser].
-Stream<YustUser?> user(UserRef ref) {
+@riverpod
+Stream<YustUser?> user(Ref ref) {
   ref.watch(authStateProvider);
   final authId = Yust.authService.getCurrentUserId();
-  return core.YustUserService.getFirstStream(
+  return Yust.databaseService.getFirstStream<YustUser>(
+    YustUser.setup(),
     filters: [
       YustFilter(
         comparator: YustFilterComparator.equal,

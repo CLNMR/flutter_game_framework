@@ -17,27 +17,31 @@ scripts:
     test:
         name: Run Tests
         description: 'Runs flutter test in all packages'
-        exec: flutter test
-        concurrency: 1
+        run: flutter test
+        exec:
+            concurrency: 1
         packageFilters:
             dirExists: 'test'
     gen:
         name: Generate Parts
         description: 'Regenerates .g/.r/.service files for all packages'
-        exec: dart run build_runner build --delete-conflicting-outputs
-        concurrency: 1
-        orderDependents: true
+        run: dart run build_runner build --delete-conflicting-outputs
+        exec:
+            concurrency: 1
+            orderDependents: true
     check-translations:
         name: Check Translations
         description: 'Validates translation JSON files for completeness and consistency'
-        exec: flutter test test/translation_validation_test.dart
-        concurrency: 1
+        run: flutter test test/translation_validation_test.dart
+        exec:
+            concurrency: 1
         packageFilters:
             fileExists: 'test/translation_validation_test.dart'
     custom-lint:
         name: Run Custom Lints
         description: 'Runs custom_lint translation key checks'
-        exec: dart run custom_lint
-        concurrency: 1
+        run: dart run custom_lint
+        exec:
+            concurrency: 1
         packageFilters:
             dependsOn: 'custom_lint'

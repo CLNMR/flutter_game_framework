@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // RoutingGenerator
@@ -7,8 +8,7 @@
 // ignore_for_file: directives_ordering, prefer_relative_imports
 // ignore_for_file: prefer_const_constructors
 import 'package:go_router/go_router.dart';
-
-import 'new_game_screen.dart';
+import 'package:flutter_game_framework_ui/src/screens/new_game_screen.dart';
 
 /// The path and route of the screen.
 extension NewGameScreenRouting on NewGameScreen {
@@ -22,10 +22,6 @@ extension NewGameScreenRouting on NewGameScreen {
   static GoRoute route = GoRoute(
     path: path,
     name: path,
-    builder: (
-      context,
-      state,
-    ) =>
-        NewGameScreen(),
+    builder: (context, state) => NewGameScreen(),
   );
 }
