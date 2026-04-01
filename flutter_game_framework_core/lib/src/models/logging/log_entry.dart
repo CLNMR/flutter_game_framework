@@ -42,12 +42,19 @@ abstract class LogEntry {
   TrObject getDescription(Game game);
 
   /// Shows the event display, to be reimplemented.
-  /// Shows the event display, to be reimplemented.
-  void showEventDisplay(
+  // ignore: avoid-unnecessary-futures
+  Future<void> showEventDisplay(
     Game game,
-    Function(TrObject title, TrObject message) displayEvent,
+    Function(
+      TrObject title,
+      TrObject message,
+      String? imagePath,
+      int? colorCode,
+    )
+    displayEvent,
     Function() incrementLogDisplayCount,
-  ) {
+  // ignore: avoid-redundant-async
+  ) async {
     incrementLogDisplayCount();
   }
 

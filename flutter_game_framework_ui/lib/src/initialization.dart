@@ -41,7 +41,7 @@ Future<void> initialize({
   List<RichTrType>? additionalRichTrTypes,
   List<InlineSpan> Function(TrObject)? getSpans,
 }) async {
-  LogEntryType.values.addAll(additionalLogTypes ?? []);
+  LogEntryType.values.insertAll(0, additionalLogTypes ?? []);
   RichTrType.values.addAll(additionalRichTrTypes ?? []);
   _gameScreenRoute = gameScreenRoute;
   _gameSetup = gameSetup;
@@ -66,19 +66,21 @@ Future<void> _initAppConfig({String? emulatorAddress}) async {
   final env = emulatorAddress != null
       ? OwnEnvironment.emulator
       : const String.fromEnvironment('environment', defaultValue: 'dev') ==
-              'prod'
-          ? OwnEnvironment.production
-          : OwnEnvironment.development;
+            'prod'
+      ? OwnEnvironment.production
+      : OwnEnvironment.development;
   final platform = kIsWeb
       ? OwnPlatform.web
       : Platform.isAndroid
-          ? OwnPlatform.android
-          : OwnPlatform.ios;
+      ? OwnPlatform.android
+      : OwnPlatform.ios;
   try {
-    final jsonString =
-        await rootBundle.loadString('assets/secrets/firebase_keys.json');
-    final jsonData = Map<String, dynamic>.from(jsonDecode(jsonString))
-        .map((key, value) => MapEntry(key, value.toString()));
+    final jsonString = await rootBundle.loadString(
+      'assets/secrets/firebase_keys.json',
+    );
+    final jsonData = Map<String, dynamic>.from(
+      jsonDecode(jsonString),
+    ).map((key, value) => MapEntry(key, value.toString()));
     AppConfig.initialize(
       env: env,
       platform: platform,
