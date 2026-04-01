@@ -147,8 +147,8 @@ class AppConfig {
         storageBucket: isProd ? firebaseSettings['storageBucket']! : '...',
       );
     } catch (e, s) {
-      print('Error reading or decoding JSON file: $e');
-      print(s);
+      // ignore: avoid_print
+      print('Error reading or decoding JSON file: $e\n$s');
     }
   }
 

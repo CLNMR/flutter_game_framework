@@ -41,7 +41,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 _buildJoinGameButton(context),
                 _buildResumeGameButton(context),
                 _buildSettingButton(context),
-                // if (noAuth) _buildResumeTestGameButton(context), TODO
                 _buildResumeLastGameButton(context),
               ],
             ),
@@ -119,11 +118,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onPressed: _goToSettingScreen(context),
       );
 
-  Widget _buildResumeTestGameButton(BuildContext context) => OwnButton(
-        text: 'TestGame',
-        onPressed: () async =>
-            context.push('${gameScreenRoute.path}/3jBRBbwVVMwyYukbQ6UW'),
-      );
   Widget _buildResumeLastGameButton(BuildContext context) => OwnButton(
         text: 'LastGame',
         // TODO: Disable if no games by user exist, and debug filters which

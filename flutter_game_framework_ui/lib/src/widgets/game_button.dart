@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import '../../flutter_game_framework_ui.dart';
-import '../util/app_gradients.dart';
-import '../util/widget_ref_extension.dart';
-import 'own_text.dart';
-import 'player_icon.dart';
 
 /// A button that displays a summary of a game and leads to the game screen.
 class GameButton extends ConsumerWidget {

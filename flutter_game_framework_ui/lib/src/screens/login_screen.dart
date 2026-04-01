@@ -65,7 +65,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildHeading(),
-                // if (noAuth) _buildQuickLogin(context), TODO
                 _buildLoginWithEmailPw(context),
                 _buildCreateAccountButton(context),
                 Row(
@@ -94,15 +93,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           fontSize: 40,
           color: Colors.white,
         ),
-      );
-
-  Widget _buildQuickLogin(BuildContext context) => OwnButton(
-        text: 'Quick Dev Login',
-        onPressed: () async {
-          _emailController.text = '1@xxx.xxx';
-          _passwordController.text = 'xxxxxx';
-          await _tryLogin();
-        },
       );
 
   Widget _buildCreateAccountButton(BuildContext context) => OwnButton(

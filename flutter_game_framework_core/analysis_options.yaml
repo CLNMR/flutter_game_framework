@@ -8,7 +8,7 @@ analyzer:
 linter:
   rules:
     lines_longer_than_80_chars: true
-    package_api_docs: true
+    # package_api_docs: removed in Dart 3.7
     public_member_api_docs: true
     require_trailing_commas: true
     always_declare_return_types: true
@@ -92,7 +92,7 @@ linter:
     unnecessary_statements: true
     unnecessary_to_list_in_spreads: true
     unreachable_from_main: true
-    unsafe_html: true
+    # unsafe_html: removed in Dart 3.7
     use_build_context_synchronously: true
     use_colored_box: true
     use_decorated_box: true

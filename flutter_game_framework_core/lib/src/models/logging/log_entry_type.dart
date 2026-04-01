@@ -5,6 +5,10 @@ import 'unknown_log_entry.dart';
 
 /// The different types of log entries we are allowing.
 class LogEntryType {
+  /// Creates a [LogEntryType] with the given [name] and [fromJson] factory.
+  const LogEntryType(this.name, this.fromJson);
+
+  /// The registered log entry types.
   static List<LogEntryType> values = [startOfGame, endOfGame];
 
   /// Log the start of the game.
@@ -16,8 +20,6 @@ class LogEntryType {
 
   /// Log an unknown log entry.
   static const unknown = LogEntryType('unknown', UnknownLogEntry.fromJson);
-
-  const LogEntryType(this.name, this.fromJson);
 
   /// The name of the log entry type.
   final String name;

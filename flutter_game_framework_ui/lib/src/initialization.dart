@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,6 +87,7 @@ Future<void> _initAppConfig({String? emulatorAddress}) async {
       firebaseSettings: jsonData,
     );
   } catch (e) {
+    // ignore: avoid_print
     print('Error: $e');
   }
 }
