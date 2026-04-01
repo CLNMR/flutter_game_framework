@@ -29,7 +29,7 @@ Game Function() get createNewGame {
   return _createNewGame!;
 }
 
-List<InlineSpan> Function(TrObject)? getSpans;
+List<InlineSpan> Function(BuildContext context, TrObject trObject)? getSpans;
 
 Future<void> initialize({
   // required AppConfig config,
@@ -39,14 +39,15 @@ Future<void> initialize({
   String? emulatorAddress,
   List<LogEntryType>? additionalLogTypes,
   List<RichTrType>? additionalRichTrTypes,
-  List<InlineSpan> Function(TrObject)? getSpans,
+  List<InlineSpan> Function(BuildContext context, TrObject trObject)?
+  spanBuilder,
 }) async {
   LogEntryType.values.insertAll(0, additionalLogTypes ?? []);
   RichTrType.values.addAll(additionalRichTrTypes ?? []);
   _gameScreenRoute = gameScreenRoute;
   _gameSetup = gameSetup;
   _createNewGame = createNewGame;
-  getSpans = getSpans;
+  getSpans = spanBuilder;
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfig(emulatorAddress: emulatorAddress);
 

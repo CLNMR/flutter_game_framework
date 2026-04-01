@@ -27,12 +27,13 @@ extension BuildContextExtension on BuildContext {
   /// Translates a [TrObject] to a stylized [TextSpan].
   TextSpan trFromObjectToTextSpan(TrObject trObject, List<String> playerNames) {
     final translation = trFromObject(trObject);
-    final spans = getSpans?.call(trObject) ?? <InlineSpan>[];
+    final spans = getSpans?.call(this, trObject) ?? <InlineSpan>[];
     if (trObject.richTrObjects == null || trObject.richTrObjects!.isEmpty) {
       return TextSpan(children: spans..add(TextSpan(text: translation)));
     }
-    final richMap =
-        Map.fromEntries(trObject.richTrObjects!.map((e) => MapEntry(e.key, e)));
+    final richMap = Map.fromEntries(
+      trObject.richTrObjects!.map((e) => MapEntry(e.key, e)),
+    );
     // Search for all remaining named arguments in the translated text, and
     // replace them manually with the corresponding TextSpan.
     final exp = RegExp(r'\{(.+?)\}');
@@ -41,18 +42,12 @@ extension BuildContextExtension on BuildContext {
       onMatch: (m) {
         final key = m.group(1);
         if (key != null && richMap.containsKey(key)) {
-          spans.add(
-            richMap[key]!.getEnrichedSpan(this, playerNames),
-          );
+          spans.add(richMap[key]!.getEnrichedSpan(this, playerNames));
         }
         return '';
       },
       onNonMatch: (m) {
-        spans.add(
-          TextSpan(
-            text: m,
-          ),
-        );
+        spans.add(TextSpan(text: m));
         return '';
       },
     );

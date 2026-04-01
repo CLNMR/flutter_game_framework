@@ -17,6 +17,9 @@ class PlayerInstructionsRow extends ConsumerWidget {
     required this.game,
     this.activeColor = Colors.white,
     this.inactiveColor = Colors.grey,
+    this.decoration,
+    this.textAlign,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
   });
 
   /// The current game.
@@ -27,6 +30,15 @@ class PlayerInstructionsRow extends ConsumerWidget {
 
   /// Background color when the user is waiting.
   final Color inactiveColor;
+
+  /// Optional decoration (overrides [activeColor]/[inactiveColor] when set).
+  final Decoration Function(bool isActive)? decoration;
+
+  /// Text alignment for the instruction text.
+  final TextAlign? textAlign;
+
+  /// Padding inside the container.
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,15 +57,20 @@ class PlayerInstructionsRow extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      color: isActive ? activeColor : inactiveColor,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: decoration?.call(isActive),
+      color: decoration == null
+          ? (isActive ? activeColor : inactiveColor)
+          : null,
+      padding: padding,
       child: SizedBox(
         height: 14 * 1.2 * 3,
         child: RichText(
+          textAlign: textAlign ?? TextAlign.start,
           text: TextSpan(
             style: const TextStyle(fontSize: 14, color: Colors.black),
             children: spans,
           ),
+          maxLines: 3,
         ),
       ),
     );
