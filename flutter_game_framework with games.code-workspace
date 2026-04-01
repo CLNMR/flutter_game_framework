@@ -10,5 +10,15 @@
 			"path": "../Warigin"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.words": [
+			"combinators",
+			"ints",
+			"pubspec",
+			"riverpod",
+			"tearoffs",
+			"tostring",
+			"unawaited"
+		]
+	}
 }

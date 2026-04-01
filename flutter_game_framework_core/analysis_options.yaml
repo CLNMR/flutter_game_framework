@@ -114,7 +114,6 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 
 dart_code_metrics:
-    monorepo: true
     extends:
         - package:dart_code_metrics_presets/recommended.yaml
         - package:dart_code_metrics_presets/riverpod.yaml

@@ -80,7 +80,7 @@ Future<void> _initAppConfig({String? emulatorAddress}) async {
         await rootBundle.loadString('assets/secrets/firebase_keys.json');
     final jsonData = Map<String, dynamic>.from(jsonDecode(jsonString))
         .map((key, value) => MapEntry(key, value.toString()));
-    await AppConfig.initialize(
+    AppConfig.initialize(
       env: env,
       platform: platform,
       emulatorDomain: emulatorAddress,

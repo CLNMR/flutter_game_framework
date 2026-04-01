@@ -1,5 +1,8 @@
+# ignore_for_file: avoid-any-version
+
 name: flutter_game_framework_core
 description: "The core part (dart-only) of the flutter_game_framework."
+publish_to: none
 version: 0.0.1
 
 environment:

@@ -31,9 +31,11 @@ class Player {
   /// The name of the player.
   final String displayName;
 
+  static const _empty = 'EMPTY';
+
   /// An empty [Player].
   static const empty = Player(
-    id: 'EMPTY',
-    displayName: 'EMPTY',
+    id: _empty,
+    displayName: _empty,
   );
 }
