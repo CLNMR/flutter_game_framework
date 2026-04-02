@@ -1,10 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:yust/yust.dart';
 
 part 'player.g.dart';
 
 @JsonSerializable()
-/// A player of the game.
+@immutable
+/// A player of the game. Equality is based on [id] only.
 class Player {
   /// Creates a [Player].
   const Player({required this.id, required this.displayName});
