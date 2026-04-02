@@ -131,8 +131,8 @@ class AppConfig {
         appIdIos: firebaseSettings['appIdIos'] ?? '',
         appIdWeb: firebaseSettings['appIdWeb'] ?? '',
         authDomain: isEmu
-            ? '${(emulatorDomain ?? 'localhost')}:9099'
-            : firebaseSettings['authDomain'] ?? '',
+            ? '${emulatorDomain ?? 'localhost'}:9099'
+            : (firebaseSettings['authDomain'] ?? ''),
         measurementId: firebaseSettings['measurementId'] ?? '',
         messagingSenderId: firebaseSettings['messagingSenderId'] ?? '',
         projectId: firebaseSettings['projectId'] ?? '',

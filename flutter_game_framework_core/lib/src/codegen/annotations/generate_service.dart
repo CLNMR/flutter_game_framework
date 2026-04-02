@@ -1,3 +1,5 @@
+// ignore_for_file: comment_references
+
 /// Annotation to generate a service class.
 class GenerateService {
   /// Creates a [GenerateService].
