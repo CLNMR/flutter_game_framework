@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_game_framework_core/flutter_game_framework_core.dart';
 import 'package:flutter_game_framework_ui/src/initialization.dart';
 import 'package:flutter_game_framework_ui/src/util/widget_ref_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,9 @@ class GFRouter {
         GoRoute(path: '/', redirect: (_, __) => '/home'),
         ..._getRoutes(ref),
       ],
-      initialLocation: LoginScreenRouting.path,
+      initialLocation: noAuth
+          ? HomeScreenRouting.path
+          : LoginScreenRouting.path,
       debugLogDiagnostics: false,
       redirect: (context, state) => _guard(context, state, ref),
     );
@@ -59,7 +62,7 @@ class GFRouter {
       CreateEmailPwScreenRouting.path,
     ].contains(state.fullPath);
 
-    if (userRequired && ref.authState == AuthState.signedOut) {
+    if (userRequired && !noAuth && ref.authState == AuthState.signedOut) {
       return '${LoginScreenRouting.path}?redirection='
           '${Uri.encodeComponent(state.fullPath ?? '')}';
     }
